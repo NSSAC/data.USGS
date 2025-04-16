@@ -407,7 +407,7 @@
       </attr>
       <attr>
         <attrlabl>Price_Palladium_dto</attrlabl>
-        <attrdef>Price, Dollars per troy ounce: Palladium. Engelhard unfabricated metal average annual prices. Source: S&#038;P Global Platts Metals Week.</attrdef>
+        <attrdef>Price, Dollars per troy ounce: Palladium. Engelhard unfabricated metal average annual prices. Source: S&P Global Platts Metals Week.</attrdef>
         <attrdefs>Producer Defined</attrdefs>
         <attrdomv>
           <rdom>
@@ -419,7 +419,7 @@
       </attr>
       <attr>
         <attrlabl>Price_Platinum_dto</attrlabl>
-        <attrdef>Price, Dollars per troy ounce: Platinum. Engelhard unfabricated metal average annual prices. Source: S&#038;P Global Platts Metals Week.</attrdef>
+        <attrdef>Price, Dollars per troy ounce: Platinum. Engelhard unfabricated metal average annual prices. Source: S&P Global Platts Metals Week.</attrdef>
         <attrdefs>Producer Defined</attrdefs>
         <attrdomv>
           <rdom>
@@ -431,7 +431,7 @@
       </attr>
       <attr>
         <attrlabl>Price_Iridium_dto</attrlabl>
-        <attrdef>Price, Dollars per troy ounce: Iridium. Engelhard unfabricated metal average annual prices. Source: S&#038;P Global Platts Metals Week. Data are estimated for the most recent year.</attrdef>
+        <attrdef>Price, Dollars per troy ounce: Iridium. Engelhard unfabricated metal average annual prices. Source: S&P Global Platts Metals Week. Data are estimated for the most recent year.</attrdef>
         <attrdefs>Producer Defined</attrdefs>
         <attrdomv>
           <rdom>
@@ -443,7 +443,7 @@
       </attr>
       <attr>
         <attrlabl>Price_Rhodium_dto</attrlabl>
-        <attrdef>Price, Dollars per troy ounce: Rhodium. Engelhard unfabricated metal average annual prices. Source: S&#038;P Global Platts Metals Week. Data are estimated for the most recent year.</attrdef>
+        <attrdef>Price, Dollars per troy ounce: Rhodium. Engelhard unfabricated metal average annual prices. Source: S&P Global Platts Metals Week. Data are estimated for the most recent year.</attrdef>
         <attrdefs>Producer Defined</attrdefs>
         <attrdomv>
           <rdom>

@@ -11,6 +11,7 @@ library(XML)
 library(xml2)
 library(data.table)
 library(stringr)
+library(readr)
 ```
 
 # 1. Ingest Commodity Files
@@ -19,36 +20,36 @@ library(stringr)
 
 ```{r}
 download.file("https://www.sciencebase.gov/catalog/file/get/677eaf95d34e760b392c4970?f=__disk__70%2Fcf%2F36%2F70cf3695ad9405884df4a4758e4b609013e3fb1e",
-              here("data/USGS/usgs_mineral_2025.zip"))
-unzip(here("data/USGS/usgs_mineral_2025.zip"), exdir = here("data/USGS/usgs_mineral_2025/"))
-unlink(here("data/USGS/usgs_mineral_2025.zip"))
+              here("data/ingest/usgs_mineral_2025.zip"))
+unzip(here("data/ingest/usgs_mineral_2025.zip"), exdir = here("data/ingest/usgs_mineral_2025/"))
+unlink(here("data/ingest/usgs_mineral_2025.zip"))
 ```
 
 ## Ingest 2024
 
 ```{r}
 download.file("https://www.sciencebase.gov/catalog/file/get/65a6e45fd34e5af967a46749?f=__disk__9c%2F08%2Fa8%2F9c08a8bb0d04a87840f4f7f4ba489adf0d277f32",
-              here("data/USGS/usgs_mineral_2024.zip"))
-unzip(here("data/USGS/usgs_mineral_2024.zip"), exdir = here("data/USGS/usgs_mineral_2024/"))
-unlink(here("data/USGS/usgs_mineral_2024.zip"))
+              here("data/ingest/usgs_mineral_2024.zip"))
+unzip(here("data/ingest/usgs_mineral_2024.zip"), exdir = here("data/ingest/usgs_mineral_2024/"))
+unlink(here("data/ingest/usgs_mineral_2024.zip"))
 ```
 
 ## Ingest 2023
 
 ```{r}
 download.file("https://www.sciencebase.gov/catalog/file/get/63b5f411d34e92aad3caa57f?f=__disk__52%2F8b%2Ff6%2F528bf6c0a324c889837f857d5fe7acf8d5a9965c",
-              here("data/USGS/usgs_mineral_2023.zip"))
-unzip(here("data/USGS/usgs_mineral_2023.zip"), exdir = here("data/USGS/usgs_mineral_2023/"))
-unlink(here("data/USGS/usgs_mineral_2023.zip"))
+              here("data/ingest/usgs_mineral_2023.zip"))
+unzip(here("data/ingest/usgs_mineral_2023.zip"), exdir = here("data/ingest/usgs_mineral_2023/"))
+unlink(here("data/ingest/usgs_mineral_2023.zip"))
 ```
 
 ## Ingest 2022
 
 ```{r}
 download.file("https://www.sciencebase.gov/catalog/file/get/6197ccbed34eb622f692ee1c?f=__disk__ef%2Fa8%2F27%2Fefa827f9cad2012de291a711b2a073b0a7cd4aa5",
-              here("data/USGS/usgs_mineral_2022.zip"))
-unzip(here("data/USGS/usgs_mineral_2022.zip"), exdir = here("data/USGS/usgs_mineral_2022/"))
-unlink(here("data/USGS/usgs_mineral_2022.zip"))
+              here("data/ingest/usgs_mineral_2022.zip"))
+unzip(here("data/ingest/usgs_mineral_2022.zip"), exdir = here("data/ingest/usgs_mineral_2022/"))
+unlink(here("data/ingest/usgs_mineral_2022.zip"))
 ```
 
 # 2. Get Key Variables and File Names (from XML)
@@ -56,7 +57,7 @@ unlink(here("data/USGS/usgs_mineral_2022.zip"))
 ## Load XML Metadata Files
 
 ```{r}
-xml_files <- list.files(here("data/USGS"), pattern = "*.xml", full.names = T, recursive = T)
+xml_files <- list.files(here("data/ingest"), pattern = "*.xml", full.names = T, recursive = T)
 ```
 
 ## Set data.table Structure
@@ -75,7 +76,9 @@ for (f in 1:length(xml_files)) {
   if (yr > 2024) break
   
   # PROCESS XML TO R OBJECTS
-  xml <- read_xml(xml_files[f])
+  xml_txt <- read_file(xml_files[f])
+  xml_txt <- str_replace_all(xml_txt, "\\&", "\\&amp;")
+  xml <- read_xml(xml_txt)
   
   attrs <- xml_find_all(xml, ".//attr")
   ents <- xml_find_all(xml, ".//enttyp")
@@ -100,6 +103,7 @@ for (f in 1:length(xml_files)) {
       mineral <- "mineral not found"
     }
   }
+  print(mineral)
   
   # SET FILENAME
   for (j in 1:length(ents_list)) {
@@ -112,6 +116,7 @@ for (f in 1:length(xml_files)) {
       filename <- "filename not found"
     }
   }
+  print(filename)
   
   # SET UNIT
   for (k in 1:length(attrunit_list)) {
@@ -123,6 +128,7 @@ for (f in 1:length(xml_files)) {
       unit <- "unit not found"
     }
   }
+  print(unit)
   
   # IF BOTH MINERAL AND FILENAME ARE SET, ADD TO data.table
   if (mineral != "not found" && filename != "filename not found") {
@@ -135,7 +141,7 @@ for (f in 1:length(xml_files)) {
 ## Write to File
 
 ```{r}
-fwrite(mineral_files, here("data/USGS/mineral_file_names_before_2025.csv"))
+fwrite(mineral_files, here("data/working/mineral_file_names_before_2025.csv"))
 ```
 
 # 3. Create Combined Commodity File
@@ -157,7 +163,7 @@ dt_lng <- data.table(Source = character(),
 ## Read Minerals, Units, and File Names from File
 
 ```{r}
-file_vars <- fread(here("data/USGS/mineral_file_names_before_2025.csv"))
+file_vars <- fread(here("data/working/mineral_file_names_before_2025.csv"))
 ```
 
 ## Process 2022-2024 Data Files
@@ -178,7 +184,7 @@ for (i in 1:nrow(file_vars)) {
   } 
   
   # LOCATE AND READ FILE
-  fpath <- list.files(here("data/USGS"), pattern = fname, full.names = T, recursive = T)
+  fpath <- list.files(here("data/ingest"), pattern = fname, full.names = T, recursive = T)
   d <- fread(fpath, header = T, colClasses = c("character"))
   
   # IF COLUMN NAME = "Form" CHANGE TO "Type"
@@ -227,7 +233,7 @@ colnames(dt2224) <- toupper(colnames(dt2224))
 
 ```{r}
 # LOAD 2025 FILE
-d25 <- fread(here("data/USGS/usgs_mineral_2025/MCS2025_World_Data.csv"))
+d25 <- fread(here("data/ingest/usgs_mineral_2025/MCS2025_World_Data.csv"))
 ```
 
 ## Fix a Missing Data Item (Sierra Leone Titanium UNIT_MEAS)
@@ -344,5 +350,5 @@ dt2225[COMMODITY == "ABRASIVES (MANUFACTURED)", COMMODITY := "ABRASIVES"]
 dt2225 <- dt2225[, .(SOURCE, COMMODITY, COUNTRY, TYPE, MEAS_UNIT, MEAS_NAME, MEAS_TYPE, SRC_YR, MEAS_YR, ESTIMATED, VALUE)]
 
 # WRITE FILE
-fwrite(dt2225, here("data/USGS/world_mineral_commodity_reports_2022-2025.csv"))
+fwrite(dt2225, here("data/output/world_mineral_commodity_reports_2022-2025.csv"))
 ```
