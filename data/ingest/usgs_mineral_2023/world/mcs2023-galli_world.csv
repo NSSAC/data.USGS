@@ -1,0 +1,9 @@
+﻿Source,Country,Type,Prod_kg_2021,Prod_kg_est_2022,Prod_notes,Cap_kg_2022,Cap_notes,Reserves_kg,Reserves_notes
+MCS2023,United States,Primary production,0,0,,0,,NA,
+MCS2023,China,Primary production,423000,540000,Reported production in 2021.,750000,,NA,
+MCS2023,Japan,Primary production,3000,3000,,10000,Estimated capacity,NA,
+MCS2023,"Korea, Republic of",Primary production,2000,2000,,16000,Estimated capacity,NA,
+MCS2023,Russia,Primary production,5000,5000,,10000,Estimated capacity,NA,
+MCS2023,Ukraine,Primary production,1000,1000,,15000,Estimated capacity,NA,
+MCS2023,Other countries,Primary production,0,0,"Other countries thought to still have primary low-purity gallium production capacity include Germany, Hungary, and Kazakhstan. ",73000,Estimated capacity,NA,
+MCS2023,World total (rounded),Primary production,434000,550000,,870000,Estimated capacity,NA,

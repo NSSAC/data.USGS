@@ -1,0 +1,15 @@
+﻿Source,Country,Type,Prod_kg_2021,Prod_kg_est_2022,Prod_notes,Reserves_kg,Reserves_notes
+MCS2023,United States, Mine production: Palladium,13700,11000,,NA,Included with platinum
+MCS2023,Canada, Mine production: Palladium,15000,15000,,NA,Included with platinum
+MCS2023,Russia, Mine production: Palladium,"86,000",88000,Production in 2021 is also estimated.,NA,Included with platinum
+MCS2023,South Africa, Mine production: Palladium,84300,80000,,NA,Included with platinum
+MCS2023,Zimbabwe, Mine production: Palladium,12400,12000,,NA,Included with platinum
+MCS2023,Other countries, Mine production: Palladium,2540,2500,,NA,Included with platinum
+MCS2023,World total (rounded), World mine production: Palladium,214000,210000,,NA,Included with platinum
+MCS2023,United States, Mine production: Platinum,4020,3300,,900000,Includes all platinum-group metals
+MCS2023,Canada, Mine production: Platinum,6000,6000,,310000,Includes all platinum-group metals
+MCS2023,Russia, Mine production: Platinum,"21,000",20000,Production in 2021 is also estimated.,5500000,Includes all platinum-group metals
+MCS2023,South Africa, Mine production: Platinum,142000,140000,,63000000,Includes all platinum-group metals
+MCS2023,Zimbabwe, Mine production: Platinum,14700,15000,,1200000,Includes all platinum-group metals
+MCS2023,Other countries, Mine production: Platinum,4270,4200,,NA,Not available
+MCS2023,World total (rounded),World mine production: Platinum,192000,190000,,70000000,Includes all platinum-group metals

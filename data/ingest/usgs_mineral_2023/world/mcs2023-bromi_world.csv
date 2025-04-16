@@ -1,0 +1,10 @@
+﻿Source,Country,Type,Prod_t_est_2021,Prod_t_est_2022,Prod_notes,Reserves_t,Reserves_notes
+MCS2023,United States,"Plant production, bromine content",W,W,,11000000,
+MCS2023,Azerbaijan,"Plant production, bromine content",0,0,,300000,
+MCS2023,China,"Plant production, bromine content",70000,70000,,NA,
+MCS2023,India,"Plant production, bromine content",5000,5000,,NA,
+MCS2023,Israel,"Plant production, bromine content",182000,180000,,NA,Considered to be large
+MCS2023,Japan,"Plant production, bromine content",18000,20000,,NA,
+MCS2023,Jordan,"Plant production, bromine content",110000,110000,,NA,Considered to be large
+MCS2023,Ukraine,"Plant production, bromine content",4500,4500,,NA,
+MCS2023,"World total (rounded), excluding United States","Plant production, bromine content",390000,390000,Excludes U.S. production,NA,Considered to be large

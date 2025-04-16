@@ -1,0 +1,10 @@
+﻿Source,Country,Type,Prod_kt_2021,Prod_kt_est_2022,Prod_notes,Reserves_kt,Reserves_notes
+MCS2023,United States,"Soda ash, natural, mine production",11300,11000,,23000000,"From trona, nahcolite, and dawsonite deposits. The reported quantities are sodium carbonate only."
+MCS2023,Botswana,"Soda ash, natural, mine production",262,260,,400000,
+MCS2023,Ethiopia,"Soda ash, natural, mine production",18,20,Estimated in 2021 also,400000,
+MCS2023,Kenya,"Soda ash, natural, mine production",250,250,Estimated in 2021 also,7000,
+MCS2023,Turkey,"Soda ash, natural, mine production",4200,4400,Estimated in 2021 also,880000,
+MCS2023,Other countries8,"Soda ash, natural, mine production",NA,NA,"China is thought to produce natural trona but because the majority of soda ash production is synthetic, China’s production is included in 'World total, synthetic'.",280000,
+MCS2023,"World total, natural","Soda ash, natural, mine production",16000,16000,,25000000,
+MCS2023,"World total, synthetic","Soda ash, synthetic",40100,42000,,XX,
+MCS2023,"World total, natural and synthetic","Soda ash, total natural and synthetic",56100,58000,,XX,

@@ -1,0 +1,348 @@
+---
+title: Ingest USGS Mineral Commodity Data Files
+format: html
+---
+
+## Load Libraries
+
+```{r}
+library(here)
+library(XML)
+library(xml2)
+library(data.table)
+library(stringr)
+```
+
+# 1. Ingest Commodity Files
+
+## Ingest 2025
+
+```{r}
+download.file("https://www.sciencebase.gov/catalog/file/get/677eaf95d34e760b392c4970?f=__disk__70%2Fcf%2F36%2F70cf3695ad9405884df4a4758e4b609013e3fb1e",
+              here("data/USGS/usgs_mineral_2025.zip"))
+unzip(here("data/USGS/usgs_mineral_2025.zip"), exdir = here("data/USGS/usgs_mineral_2025/"))
+unlink(here("data/USGS/usgs_mineral_2025.zip"))
+```
+
+## Ingest 2024
+
+```{r}
+download.file("https://www.sciencebase.gov/catalog/file/get/65a6e45fd34e5af967a46749?f=__disk__9c%2F08%2Fa8%2F9c08a8bb0d04a87840f4f7f4ba489adf0d277f32",
+              here("data/USGS/usgs_mineral_2024.zip"))
+unzip(here("data/USGS/usgs_mineral_2024.zip"), exdir = here("data/USGS/usgs_mineral_2024/"))
+unlink(here("data/USGS/usgs_mineral_2024.zip"))
+```
+
+## Ingest 2023
+
+```{r}
+download.file("https://www.sciencebase.gov/catalog/file/get/63b5f411d34e92aad3caa57f?f=__disk__52%2F8b%2Ff6%2F528bf6c0a324c889837f857d5fe7acf8d5a9965c",
+              here("data/USGS/usgs_mineral_2023.zip"))
+unzip(here("data/USGS/usgs_mineral_2023.zip"), exdir = here("data/USGS/usgs_mineral_2023/"))
+unlink(here("data/USGS/usgs_mineral_2023.zip"))
+```
+
+## Ingest 2022
+
+```{r}
+download.file("https://www.sciencebase.gov/catalog/file/get/6197ccbed34eb622f692ee1c?f=__disk__ef%2Fa8%2F27%2Fefa827f9cad2012de291a711b2a073b0a7cd4aa5",
+              here("data/USGS/usgs_mineral_2022.zip"))
+unzip(here("data/USGS/usgs_mineral_2022.zip"), exdir = here("data/USGS/usgs_mineral_2022/"))
+unlink(here("data/USGS/usgs_mineral_2022.zip"))
+```
+
+# 2. Get Key Variables and File Names (from XML)
+
+## Load XML Metadata Files
+
+```{r}
+xml_files <- list.files(here("data/USGS"), pattern = "*.xml", full.names = T, recursive = T)
+```
+
+## Set data.table Structure
+
+```{r}
+mineral_files <- data.table(year = character(), mineral = character(), unit = character(), filename = character())
+```
+
+## Set Mineral, Unit, and File Name (with Path)
+
+```{r}
+for (f in 1:length(xml_files)) {
+  # EXTRACT YEAR FROM FILENAME
+  yr <- str_extract(xml_files[f], "[1-9][0-9][0-9][0-9]")
+  # ONLY PROCESS =< 2024 
+  if (yr > 2024) break
+  
+  # PROCESS XML TO R OBJECTS
+  xml <- read_xml(xml_files[f])
+  
+  attrs <- xml_find_all(xml, ".//attr")
+  ents <- xml_find_all(xml, ".//enttyp")
+  attrunit <- xml_find_all(xml, ".//attrunit")
+  title <- as_list(xml_find_all(xml, ".//title")[1])[[1]][[1]]
+  
+  attrs_list <- as_list(attrs)
+  ents_list <- as_list(ents)
+  attrunit_list <- as_list(attrunit)
+  
+  # SET MINERAL NAME
+  for (i in 1:length(attrs_list)) {
+    a <- attrs_list[[i]]
+    if(a$attrlabl[[1]] == "Commodity") {
+      print(a$attrdomv$edom$edomv[[1]])
+      mineral <- toupper(a$attrdomv$edom$edomv[[1]])
+      break
+    } else if(str_detect(title, "Data Release")) {
+      x <- as_list(xml_find_all(xml, ".//title")[1])[[1]][[1]]
+      mineral <- substr(x, str_locate(x, "[A-Z][A-Z]+")[1], str_locate(x, " Data Release")[1]-1)
+    } else {
+      mineral <- "mineral not found"
+    }
+  }
+  
+  # SET FILENAME
+  for (j in 1:length(ents_list)) {
+    e <- ents_list[[j]]$enttypl[[1]]
+    if(grepl("world", e, fixed = TRUE)) {
+      print(e)
+      filename <- e
+      break
+    } else {
+      filename <- "filename not found"
+    }
+  }
+  
+  # SET UNIT
+  for (k in 1:length(attrunit_list)) {
+    u <- trimws(attrunit_list[[k]][[1]][[1]][[1]])
+    if(u != "" & !u %like% ",") {
+      unit <- toupper(u)
+      break
+    } else {
+      unit <- "unit not found"
+    }
+  }
+  
+  # IF BOTH MINERAL AND FILENAME ARE SET, ADD TO data.table
+  if (mineral != "not found" && filename != "filename not found") {
+    dt <- data.table(year = yr, mineral = mineral, unit = unit, filename = filename)
+    mineral_files <- rbindlist(list(mineral_files, dt))
+  }
+}
+```
+
+## Write to File
+
+```{r}
+fwrite(mineral_files, here("data/USGS/mineral_file_names_before_2025.csv"))
+```
+
+# 3. Create Combined Commodity File
+
+The data files are varied in their format. There was no followed standard for column number or column names. We convert all data files to long (tidy) format - one reading/measurement/comment per row. Doing so gives each dataset the same set of columns (Commodity, Country, Type, Meas_Unit, Meas_Name, and Value) so that they can be merged. The measure name (Meas_Name) is the former name of the data column. For example, if a data column was named "Cap_t_est_2020", that name now becomes Meas_Name (and each data entry gets its own row).
+
+## Set data.table Structure
+
+```{r}
+dt_lng <- data.table(Source = character(),
+                     Commodity = character(),
+                     Country = character(),
+                     Type = character(),
+                     Meas_Unit = character(),
+                     Meas_Name = character(),
+                     Value = character())
+```
+
+## Read Minerals, Units, and File Names from File
+
+```{r}
+file_vars <- fread(here("data/USGS/mineral_file_names_before_2025.csv"))
+```
+
+## Process 2022-2024 Data Files
+
+```{r}
+# FOR EACH ROW IN file_vars
+for (i in 1:nrow(file_vars)) {
+  fname <- file_vars[i]$filename
+  print(fname)
+  
+  # FIX FILE NAMING ERROS BEFORE PROCESSING FILE
+  fname <- str_replace(fname, "-world", "_world")
+  fname <- str_replace(fname, "mgcom_", "mgcomp_")
+  fname <- str_replace(fname, "mcs2023-zirco_", "mcs2023-zirco-hafni_")
+  fname <- str_replace(fname, "mcs2024-bismu_world", "MCS2024-bismu_world")
+  if (substr(fname, 8, 8) == "_") {
+    fname <- str_replace(fname, "_", "-")
+  } 
+  
+  # LOCATE AND READ FILE
+  fpath <- list.files(here("data/USGS"), pattern = fname, full.names = T, recursive = T)
+  d <- fread(fpath, header = T, colClasses = c("character"))
+  
+  # IF COLUMN NAME = "Form" CHANGE TO "Type"
+  if ("Form" %in% colnames(d)) setnames(d, "Form", "Type")
+  
+  # IF COLUMN NAME = "Mine production, fluorspar" CHANGE TO "Type"
+  if ("Mine production, fluorspar" %in% colnames(d)) setnames(d, "Mine production, fluorspar", "Type")
+  
+  # ADD Commodity COLUMN USING file_vars
+  d[, Commodity := file_vars[i]$mineral]
+  
+  # ADD Meas_Unit COLUMN USING file_vars
+  d[, Meas_Unit := file_vars[i]$unit]
+  
+  # CREATE/REPLACE SOURCE COLUMN (sometimes doesn't exist)
+  d$Source <- toupper(substr(basename(fpath), 1, 7))
+  
+  # TRANSPOSE TO LONG FORMAT
+  m <- melt(d, 
+            id.vars = c("Source", "Commodity", "Country", "Type", "Meas_Unit"), 
+            variable.name = "Meas_Name",
+            value.name = "Value",
+            variable.factor = F)
+  
+  # REMOVE NAs
+  m <- m[!is.na(Value),]
+  
+  # REMOVE IF COUNTY IS MISSING
+  m <- m[Country != "",]
+  
+  # ADD TO data.table
+  dt_lng <- rbindlist(list(dt_lng, m))
+}
+```
+
+## Finalize 2022-2024 Data
+
+```{r}
+# ORDER COLUMNS
+dt2224 <- dt_lng[, .(Source, Commodity, Country, Type, Meas_Unit, Meas_Name, Value)]
+# CAPITALIZE COLUMN NAMES
+colnames(dt2224) <- toupper(colnames(dt2224))
+```
+
+## Process 2025 Data File
+
+```{r}
+# LOAD 2025 FILE
+d25 <- fread(here("data/USGS/usgs_mineral_2025/MCS2025_World_Data.csv"))
+```
+
+## Fix a Missing Data Item (Sierra Leone Titanium UNIT_MEAS)
+
+```{r}
+d25[toupper(COMMODITY) %like% "TITAN" & toupper(COUNTRY) %like% "SIERRA", UNIT_MEAS := "metric tons"]
+```
+
+## Transpose to Long Format
+
+```{r}
+# MELT
+d25m <- melt(d25, 
+             id.vars = c("SOURCE", "COMMODITY", "COUNTRY", "TYPE", "UNIT_MEAS"), 
+             variable.name = "MEAS_NAME",
+             value.name = "VALUE")
+
+# UPDATE COLUMN NAME
+setnames(d25m, "UNIT_MEAS", "MEAS_UNIT")
+
+# CAPITALIZE MEAS_UNIT
+d25m[, MEAS_UNIT := toupper(MEAS_UNIT)]
+```
+
+## Combine 2022-2025 Files
+
+```{r}
+# COMBINE 2022-2025
+dt2225 <- rbindlist(list(dt2224, d25m))
+
+# CONVERT FACTOR COLUMN TO CHARACTER (ANNOYING)
+dt2225$MEAS_NAME <- as.character(dt2225$MEAS_NAME)
+```
+
+## Add Columns and Set Values
+
+```{r}
+# ADD SRC_YR COLUMN
+dt2225[, SRC_YR := substr(SOURCE, 4, 7)]
+
+# ADD MEAS_TYPE COLUMN
+dt2225[toupper(MEAS_NAME) %like% "^RESERV", MEAS_TYPE := "Reserve"]
+dt2225[toupper(MEAS_NAME) %like% "^CAP", MEAS_TYPE := "Capacity"]
+dt2225[toupper(MEAS_NAME) %like% "^PROD", MEAS_TYPE := "Production"]
+
+# ADD ESTIMATED COLUMN
+dt2225[toupper(MEAS_NAME) %like% "EST", ESTIMATED := "Y"]
+
+# ADD MEAS_YR COLUMN
+dt2225[!is.na(MEAS_UNIT), MEAS_YR :=  substr(MEAS_NAME, nchar(MEAS_NAME)-3, nchar(MEAS_NAME))]
+dt2225[!is.na(MEAS_UNIT) & toupper(MEAS_NAME) %like% "RESERV", MEAS_YR := as.integer(SRC_YR) - 1]
+```
+
+## Edits
+
+```{r}
+# remove leading and following whitespace
+dt2225[, VALUE := trimws(VALUE)]
+
+# remove leading "e"
+dt2225[VALUE %like% "^e[0-9]", VALUE := substr(VALUE, 2, nchar(VALUE))]
+
+# remove empty notes
+dt2225 <- dt2225[!(is.na(MEAS_UNIT) & VALUE == ""),]
+
+# notes don't have measurements
+dt2225[toupper(MEAS_NAME) %like% "NOTE", MEAS_UNIT := NA]
+dt2225[toupper(MEAS_NAME) %like% "NOTE", MEAS_YR := NA]
+
+# remove meas_name = "V9" - from Barite file
+dt2225 <- dt2225[!MEAS_NAME %like% "^V"]
+
+# remove gt and lt symbols in VALUE
+dt2225[VALUE %like% "^>", VALUE := substr(VALUE, 2, nchar(VALUE))]
+dt2225[VALUE %like% "^<", VALUE := substr(VALUE, 2, nchar(VALUE))]
+
+# substitute and for & in COMMODITY
+dt2225[COMMODITY %like% "&", COMMODITY := str_replace_all(COMMODITY, "&", "and")]
+
+# remove where VALUE equals "XX" (meaning invalid)
+dt2225 <- dt2225[!VALUE=="XX"]
+
+# remove if NA or blank in VALUE
+dt2225 <- dt2225[!is.na(VALUE) & VALUE != ""]
+
+# capitalize COMMODITY, COUNTRY, and MEAS_TYPE
+dt2225[, COMMODITY := toupper(COMMODITY)]
+dt2225[, COUNTRY := toupper(COUNTRY)]
+dt2225[, MEAS_TYPE := toupper(MEAS_TYPE)]
+
+# add space before open parentheses
+dt2225[COMMODITY %like% "[A-Z]\\(", COMMODITY := str_replace(COMMODITY, "([A-Z])\\(", "\\1 (")]
+
+# double dash to single and add space before and after
+dt2225[COMMODITY %like% "\\)--[A-Z]", COMMODITY := str_replace(COMMODITY, "--", " - ")]
+```
+
+## Harmonize Commodity Names - Set to 2025 Names
+
+```{r}
+dt2225[COMMODITY == "BAUXITE AND ALUMINA", COMMODITY := "BAUXITE"]
+dt2225[COMMODITY == "NIOBIUM (COLUMBIUM)", COMMODITY := "NIOBIUM"]
+dt2225[COMMODITY == "MICA", COMMODITY := "MICA (NATURAL)"]
+dt2225[COMMODITY == "GRAPHITE (NATURAL)", COMMODITY := "GRAPHITE"]
+dt2225[COMMODITY == "FELDSPAR AND NEPHELINE SYENITE", COMMODITY := "FELDSPAR"]
+dt2225[COMMODITY == "TALC AND PYROPHYLLITE", COMMODITY := "TALC, CRUDE"]
+dt2225[COMMODITY == "ABRASIVES (MANUFACTURED)", COMMODITY := "ABRASIVES"]
+```
+
+## Write Final Combined File
+
+```{r}
+# ORDER COLUMNS
+dt2225 <- dt2225[, .(SOURCE, COMMODITY, COUNTRY, TYPE, MEAS_UNIT, MEAS_NAME, MEAS_TYPE, SRC_YR, MEAS_YR, ESTIMATED, VALUE)]
+
+# WRITE FILE
+fwrite(dt2225, here("data/USGS/world_mineral_commodity_reports_2022-2025.csv"))
+```

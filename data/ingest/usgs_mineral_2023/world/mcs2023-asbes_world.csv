@@ -1,0 +1,8 @@
+﻿Source,Country,Type,Prod_t_2021,Prod_t_est_2022,Prod_notes,Reserves_t,Reserves_notes
+MCS2023,United States,"Mine production, asbestos",0,0,,NA,"Reserves are categorized as ""small"""
+MCS2023,Brazil,"Mine production, asbestos",154000 ,190000 ,Asbestos production in Brazil is permitted for export purposes only. The value shown represents reported country exports of asbestos in 2021.,11000000,
+MCS2023,China,"Mine production, asbestos",130000 ,130000 ,Production in 2021 is also estimated.,15000000,
+MCS2023,Kazakhstan,"Mine production, asbestos",250000 ,230000 ,,NA,"Reserves are categorized as ""large"""
+MCS2023,Russia,"Mine production, asbestos",699000 ,700000 ,,110000000,
+MCS2023,Zimbabwe,"Mine production, asbestos",10000 ,0 ,Production in 2021 is also estimated.,NA,"Reserves are categorized as ""large"""
+MCS2023,World total (rounded),"Mine production, asbestos",1240000 ,1300000 ,,NA,"Reserves are categorized as ""large"""

@@ -1,0 +1,8 @@
+﻿Source,Country,Type,Prod_t_est_2021,Prod_t_est_2022,Prod_notes,Reserves_t,Reserves_notes
+MCS2023,United States,"Mine production, wollastonite",W,W,,NA,
+MCS2023,Canada,"Mine production, wollastonite",20000,20000,,NA,
+MCS2023,China,"Mine production, wollastonite",890000,900000,,NA,
+MCS2023,India,"Mine production, wollastonite",110000,120000,,NA,
+MCS2023,Mexico,"Mine production, wollastonite",103000,100000,,NA,
+MCS2023,Other countries,"Mine production, wollastonite",15000,20000,,NA,
+MCS2023,"World total (rounded), excluding U.S. production","Mine production, wollastonite",1140000,1200000,,NA,

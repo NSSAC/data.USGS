@@ -1,0 +1,10 @@
+﻿Source,Country,Type,Prod_t_est_2021,Prod_t_est_2022,Prod_notes,Reserves_t,Reserves_notes
+MCS2023,United States,"Mine production, elemental iodine",W,W,,250000,
+MCS2023,Azerbaijan,"Mine production, elemental iodine",190,200,,170000,
+MCS2023,Chile,"Mine production, elemental iodine",22000,22000,,610000,
+MCS2023,Indonesia,"Mine production, elemental iodine",36,40,Reported production in 2021.,NA,Available information was inadequate to make an estimate of iodine reserves in Indonesia for 2022.
+MCS2023,Iran,"Mine production, elemental iodine",700,700,,NA,
+MCS2023,Japan,"Mine production, elemental iodine",8900,9000,,4900000,
+MCS2023,Russia,"Mine production, elemental iodine",3,3,,120000,
+MCS2023,Turkmenistan,"Mine production, elemental iodine",700,700,,70000,
+MCS2023,"World total (rounded), excluding United States.","Mine production, elemental iodine",32500,33000,"Excludes U.S. production. China also produces crude iodine, but output is not officially reported, and available information was inadequate to make reliable estimates of output and therefore is also not included.",6100000,Excludes China
