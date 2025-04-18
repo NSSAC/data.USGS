@@ -1,0 +1,13 @@
+---
+title: "pandas"
+format: html
+---
+
+```{r}
+data("penguins", package = "palmerpenguins")
+```
+
+```{python}
+penguins=r.penguins
+penguins
+```

@@ -1,0 +1,55 @@
+---
+title: "Reporting on the bill length of penguins"
+author: "Myles Mitchell & Parisa Gregg"
+date: "14 December 2022"
+format: html
+---
+
+```{r}
+library(reticulate)
+print("hello")
+s <- 2+2
+spy <- r_to_py(s)
+```
+
+```{python}
+print("hello to you")
+print(r.spy)
+```
+
+## Set url and file path
+```{python}
+import pathlib
+from pyprojroot.here import here
+
+url = "https://www.sciencebase.gov/catalog/file/get/677eaf95d34e760b392c4970?f=__disk__70%2Fcf%2F36%2F70cf3695ad9405884df4a4758e4b609013e3fb1e"
+
+file_path = pathlib.Path(here('data/ingest/test/usgs_mineral_2025.zip'))
+file_name = str(file_path.name)
+file_dir = str(file_path.parent)
+```
+
+## File Download
+```{python}
+from urllib.request import urlretrieve
+
+def download_file_simple(url, filename):
+    try:
+        urlretrieve(url, filename)
+        print(f"Successfully downloaded {filename}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Example usage
+pathlib.Path(file_dir).mkdir(parents=True, exist_ok=True)
+download_file_simple(url, str(file_path))
+
+```
+
+## Unzip
+```{python}
+from zipfile import ZipFile
+with ZipFile(str(file_path)) as zip:
+    zip.extractall(path=file_dir)
+```
+
