@@ -350,6 +350,7 @@ dt2225[COMMODITY=="GEMSTONES", MEAS_UNIT := toupper("thousands of carats of gem-
 dt2225[COMMODITY=="MAGNESIUM COMPOUNDS", MEAS_UNIT := toupper("thousand metric tons")]
 dt2225[COMMODITY=="POTASH", MEAS_UNIT := "THOUSAND METRIC TONS"]
 dt2225[COMMODITY=="SELENIUM", MEAS_UNIT := "METRIC TONS"]
+dt2225[COUNTRY %like% "GERMANY", COUNTRY := "GERMANY"]
 ```
 
 ## Write Final Combined File
