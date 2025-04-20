@@ -341,7 +341,9 @@ dt2225[COMMODITY == "GRAPHITE (NATURAL)", COMMODITY := "GRAPHITE"]
 dt2225[COMMODITY == "FELDSPAR AND NEPHELINE SYENITE", COMMODITY := "FELDSPAR"]
 dt2225[COMMODITY == "TALC AND PYROPHYLLITE", COMMODITY := "TALC, CRUDE"]
 dt2225[COMMODITY == "ABRASIVES (MANUFACTURED)", COMMODITY := "ABRASIVES"]
+
 ```
+
 
 ## Corrections For Wrong Data Entry
 
@@ -350,7 +352,28 @@ dt2225[COMMODITY=="GEMSTONES", MEAS_UNIT := toupper("thousands of carats of gem-
 dt2225[COMMODITY=="MAGNESIUM COMPOUNDS", MEAS_UNIT := toupper("thousand metric tons")]
 dt2225[COMMODITY=="POTASH", MEAS_UNIT := "THOUSAND METRIC TONS"]
 dt2225[COMMODITY=="SELENIUM", MEAS_UNIT := "METRIC TONS"]
-dt2225[COUNTRY %like% "GERMANY", COUNTRY := "GERMANY"]
+```
+
+## Fix Country Names
+```{r}
+
+
+# remove accents
+dt2225[, COUNTRY := stringi::stri_trans_general(COUNTRY, "Latin-ASCII")]
+
+# only use country names from list
+country_names <- read.csv("country_names.csv")
+for( nm in country_names[,1]) {
+  dt2225[COUNTRY %like% paste0("^", nm) & !COUNTRY=="UNITED STATES AND CANADA", COUNTRY := nm]
+}
+
+# dt2225[COUNTRY %like% "[0-9]$", COUNTRY := stringr::str_remove_all(COUNTRY, "[0-9]")]
+# dt2225[COUNTRY %like% "\\)$", COUNTRY := stringr::str_replace(COUNTRY, "(.*)\\(.*", "\\1")]
+# dt2225[, COUNTRY := stringr::str_replace_all(COUNTRY, "REPUBLIC OFE", "REPUBLIC OF")]
+
+# dt2225[(!COUNTRY %like% "KOREA" & !COUNTRY %like% "WORLD") & COUNTRY %like% ",", COUNTRY := stringr::str_replace(COUNTRY, "(.*),.*", "\\1")]
+
+dt2225[, COUNTRY := trimws(COUNTRY)]
 ```
 
 ## Write Final Combined File
@@ -362,3 +385,4 @@ dt2225 <- dt2225[, .(SOURCE, COMMODITY, COUNTRY, TYPE, MEAS_UNIT, MEAS_NAME, MEA
 # WRITE FILE
 fwrite(dt2225, here("data/output/world_mineral_commodity_reports_2022-2025.csv"))
 ```
+
