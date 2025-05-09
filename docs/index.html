@@ -313,7 +313,7 @@
 <span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(attrs_list)) {</span>
 <span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>        a <span class="ot">&lt;-</span> attrs_list[[i]]</span>
 <span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (a<span class="sc">$</span>attrlabl[[<span class="dv">1</span>]] <span class="sc">==</span> <span class="st">"Commodity"</span>) {</span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>            <span class="fu">print</span>(a<span class="sc">$</span>attrdomv<span class="sc">$</span>edom<span class="sc">$</span>edomv[[<span class="dv">1</span>]])</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>            <span class="co"># print(a$attrdomv$edom$edomv[[1]])</span></span>
 <span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>            mineral <span class="ot">&lt;-</span> <span class="fu">toupper</span>(a<span class="sc">$</span>attrdomv<span class="sc">$</span>edom<span class="sc">$</span>edomv[[<span class="dv">1</span>]])</span>
 <span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
 <span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> <span class="cf">if</span> (<span class="fu">str_detect</span>(title, <span class="st">"Data Release"</span>)) {</span>
@@ -357,243 +357,14 @@
 <span id="cb10-66"><a href="#cb10-66" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb10-67"><a href="#cb10-67" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
             </div>
-            <div class="cell-output cell-output-stdout">
-              <pre><code>[1] "Abrasives (Manufactured)"
-[1] "Aluminum"
-[1] "Antimony"
-[1] "Arsenic"
-[1] "Asbestos"
-[1] "Barite"
-[1] "Bauxite and Alumina"
-[1] "Beryllium"
-[1] "Bismuth"
-[1] "Boron"
-[1] "Bromine"
-[1] "Cadmium"
-[1] "Cement"
-[1] "Chromium"
-[1] "Clays"
-[1] "Cobalt"
-[1] "Copper"
-[1] "Diamond (Industrial)"
-[1] "Diatomite"
-[1] "Feldspar and Nepheline Syenite"
-[1] "Iron Ore"
-[1] "Iron Oxide Pigments"
-[1] "Iron and Steel"
-[1] "Fluorspar"
-[1] "Gallium"
-[1] "Garnet (Industrial)"
-[1] "Gemstones"
-[1] "Germanium"
-[1] "Gold"
-[1] "Graphite (Natural)"
-[1] "Gypsum"
-[1] "Helium"
-[1] "Indium"
-[1] "Iodine"
-[1] "Kyanite and Related Minerals"
-[1] "Lead"
-[1] "Lime"
-[1] "Lithium"
-[1] "Manganese"
-[1] "Mercury"
-[1] "Magnesium Compounds"
-[1] "Magnesium Metal"
-[1] "Mica"
-[1] "Molybdenum"
-[1] "Nickel"
-[1] "Niobium (Columbium)"
-[1] "Nitrogen (Fixed)--Ammonia"
-[1] "Peat"
-[1] "Perlite"
-[1] "Phosphate Rock"
-[1] "Platinum-Group Metals"
-[1] "Potash"
-[1] "Pumice and Pumicite"
-[1] "Rare Earths"
-[1] "Rhenium"
-[1] "Salt"
-[1] "Sand and Gravel (Industrial)"
-[1] "Selenium"
-[1] "Silver"
-[1] "Silicon"
-[1] "Soda Ash"
-[1] "Strontium"
-[1] "Sulfur"
-[1] "Tantalum"
-[1] "Tellurium"
-[1] "Titanium Mineral Concentrates"
-[1] "Tin"
-[1] "Titanium and Titanium Dioxide"
-[1] "Tungsten"
-[1] "Vanadium"
-[1] "Vermiculite"
-[1] "Zeolites (Natural)"
-[1] "Zinc"
-[1] "Zirconium and Hafnium"
-[1] "Abrasives (Manufactured)"
-[1] "Aluminum"
-[1] "Antimony"
-[1] "Arsenic"
-[1] "Asbestos"
-[1] "Barite"
-[1] "Bauxite and Alumina"
-[1] "Beryllium"
-[1] "Bismuth"
-[1] "Boron"
-[1] "Bromine"
-[1] "Cadmium"
-[1] "Cement"
-[1] "Chromium"
-[1] "Clays"
-[1] "Cobalt"
-[1] "Copper"
-[1] "Diamond (Industrial)"
-[1] "Diatomite"
-[1] "Feldspar and Nepheline Syenite"
-[1] "Iron Ore"
-[1] "Iron Oxide Pigments"
-[1] "Iron and Steel"
-[1] "Fluorspar"
-[1] "Gallium"
-[1] "Garnet (Industrial)"
-[1] "Gemstones"
-[1] "Germanium"
-[1] "Gold"
-[1] "Graphite (Natural)"
-[1] "Gypsum"
-[1] "Helium"
-[1] "Indium"
-[1] "Iodine"
-[1] "Kyanite and Related Minerals"
-[1] "Lead"
-[1] "Lime"
-[1] "Lithium"
-[1] "Manganese"
-[1] "Mercury"
-[1] "Magnesium Compounds"
-[1] "Magnesium Metal"
-[1] "Mica"
-[1] "Molybdenum"
-[1] "Nickel"
-[1] "Niobium (Columbium)"
-[1] "Nitrogen (Fixed)--Ammonia"
-[1] "Peat"
-[1] "Perlite"
-[1] "Phosphate Rock"
-[1] "Platinum-Group Metals"
-[1] "Potash"
-[1] "Pumice and Pumicite"
-[1] "Rare Earths"
-[1] "Rhenium"
-[1] "Salt"
-[1] "Sand and Gravel (Industrial)"
-[1] "Selenium"
-[1] "Silver"
-[1] "Silicon"
-[1] "Soda Ash"
-[1] "Stone (Dimension)"
-[1] "Strontium"
-[1] "Sulfur"
-[1] "Talc and Pyrophyllite"
-[1] "Tantalum"
-[1] "Tellurium"
-[1] "Titanium Mineral Concentrates"
-[1] "Tin"
-[1] "Titanium and Titanium Dioxide"
-[1] "Tungsten"
-[1] "Vanadium"
-[1] "Vermiculite"
-[1] "Yttrium"
-[1] "Zeolites (Natural)"
-[1] "Zinc"
-[1] "Zirconium and Hafnium"
-[1] "Abrasives (Manufactured)"
-[1] "Aluminum"
-[1] "Antimony"
-[1] "Arsenic"
-[1] "Asbestos"
-[1] "Barite"
-[1] "Bauxite and Alumina"
-[1] "Beryllium"
-[1] "Bismuth"
-[1] "Boron"
-[1] "Bromine"
-[1] "Cadmium"
-[1] "Cement"
-[1] "Chromium"
-[1] "Clays"
-[1] "Cobalt"
-[1] "Copper"
-[1] "Diamond (Industrial)"
-[1] "Diatomite"
-[1] "Feldspar and Nepheline Syenite"
-[1] "Iron Ore"
-[1] "Iron Oxide Pigments"
-[1] "Iron and Steel"
-[1] "Fluorspar"
-[1] "Gallium"
-[1] "Garnet (Industrial)"
-[1] "Gemstones"
-[1] "Germanium"
-[1] "Gold"
-[1] "Graphite (Natural)"
-[1] "Gypsum"
-[1] "Helium"
-[1] "Indium"
-[1] "Iodine"
-[1] "Kyanite and Related Minerals"
-[1] "Lead"
-[1] "Lime"
-[1] "Lithium"
-[1] "Manganese"
-[1] "Mercury"
-[1] "Magnesium Compounds"
-[1] "Magnesium Metal"
-[1] "Mica"
-[1] "Molybdenum"
-[1] "Nickel"
-[1] "Niobium (Columbium)"
-[1] "Nitrogen (Fixed)--Ammonia"
-[1] "Peat"
-[1] "Perlite"
-[1] "Phosphate Rock"
-[1] "Platinum-Group Metals"
-[1] "Potash"
-[1] "Pumice and Pumicite"
-[1] "Rare Earths"
-[1] "Rhenium"
-[1] "Salt"
-[1] "Sand and Gravel (Industrial)"
-[1] "Selenium"
-[1] "Silver"
-[1] "Silicon"
-[1] "Soda Ash"
-[1] "Stone (Dimension)"
-[1] "Strontium"
-[1] "Sulfur"
-[1] "Talc and Pyrophyllite"
-[1] "Tantalum"
-[1] "Tellurium"
-[1] "Titanium Mineral Concentrates"
-[1] "Tin"
-[1] "Titanium and Titanium Dioxide"
-[1] "Tungsten"
-[1] "Vanadium"
-[1] "Vermiculite"
-[1] "Zeolites (Natural)"
-[1] "Zinc"
-[1] "Zirconium and Hafnium"</code></pre>
-            </div>
           </div>
         </section>
         <section id="write-to-file" class="level2">
           <h2 class="anchored" data-anchor-id="write-to-file">Write to File</h2>
           <div class="cell">
-            <div class="sourceCode cell-code" id="cb12">
+            <div class="sourceCode cell-code" id="cb11">
               <pre
-                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fwrite</span>(mineral_files, <span class="fu">here</span>(<span class="st">"data/working/mineral_file_names_before_2025.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fwrite</span>(mineral_files, <span class="fu">here</span>(<span class="st">"data/working/mineral_file_names_before_2025.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
             </div>
           </div>
         </section>
@@ -608,17 +379,17 @@
         <section id="set-data.table-structure-1" class="level2">
           <h2 class="anchored" data-anchor-id="set-data.table-structure-1">Set data.table Structure</h2>
           <div class="cell">
-            <div class="sourceCode cell-code" id="cb13">
+            <div class="sourceCode cell-code" id="cb12">
               <pre
-                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dt_lng <span class="ot">&lt;-</span> <span class="fu">data.table</span>(</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">Source =</span> <span class="fu">character</span>(),</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Commodity =</span> <span class="fu">character</span>(),</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Country =</span> <span class="fu">character</span>(),</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Type =</span> <span class="fu">character</span>(),</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Meas_Unit =</span> <span class="fu">character</span>(),</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Meas_Name =</span> <span class="fu">character</span>(),</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Value =</span> <span class="fu">character</span>()</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dt_lng <span class="ot">&lt;-</span> <span class="fu">data.table</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">Source =</span> <span class="fu">character</span>(),</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Commodity =</span> <span class="fu">character</span>(),</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Country =</span> <span class="fu">character</span>(),</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Type =</span> <span class="fu">character</span>(),</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Meas_Unit =</span> <span class="fu">character</span>(),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Meas_Name =</span> <span class="fu">character</span>(),</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Value =</span> <span class="fu">character</span>()</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
             </div>
           </div>
         </section>
@@ -626,89 +397,89 @@
           <h2 class="anchored" data-anchor-id="read-minerals-units-and-file-names-from-file">Read Minerals, Units, and
             File Names from File</h2>
           <div class="cell">
-            <div class="sourceCode cell-code" id="cb14">
+            <div class="sourceCode cell-code" id="cb13">
               <pre
-                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>file_vars <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="fu">here</span>(<span class="st">"data/working/mineral_file_names_before_2025.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>file_vars <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="fu">here</span>(<span class="st">"data/working/mineral_file_names_before_2025.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
             </div>
           </div>
         </section>
         <section id="process-2022-2024-data-files" class="level2">
           <h2 class="anchored" data-anchor-id="process-2022-2024-data-files">Process 2022-2024 Data Files</h2>
           <div class="cell">
-            <div class="sourceCode cell-code" id="cb15">
+            <div class="sourceCode cell-code" id="cb14">
               <pre
-                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># FOR EACH ROW IN file_vars</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(file_vars)) {</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    fname <span class="ot">&lt;-</span> file_vars[i]<span class="sc">$</span>filename</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(fname)</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># FIX FILE NAMING ERROS BEFORE PROCESSING FILE</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    fname <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(fname, <span class="st">"-world"</span>, <span class="st">"_world"</span>)</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    fname <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(fname, <span class="st">"mgcom_"</span>, <span class="st">"mgcomp_"</span>)</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    fname <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(fname, <span class="st">"mcs2023-zirco_"</span>, <span class="st">"mcs2023-zirco-hafni_"</span>)</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    fname <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(fname, <span class="st">"mcs2024-bismu_world"</span>, <span class="st">"MCS2024-bismu_world"</span>)</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">substr</span>(fname, <span class="dv">8</span>, <span class="dv">8</span>) <span class="sc">==</span> <span class="st">"_"</span>) {</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>        fname <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(fname, <span class="st">"_"</span>, <span class="st">"-"</span>)</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># LOCATE AND READ FILE</span></span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    fpath <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="fu">here</span>(<span class="st">"data/ingest"</span>), <span class="at">pattern =</span> fname, <span class="at">full.names =</span> T, <span class="at">recursive =</span> T)</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    d <span class="ot">&lt;-</span> <span class="fu">fread</span>(fpath, <span class="at">header =</span> T, <span class="at">colClasses =</span> <span class="fu">c</span>(<span class="st">"character"</span>))</span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># IF COLUMN NAME = "Form" CHANGE TO "Type"</span></span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="st">"Form"</span> <span class="sc">%in%</span> <span class="fu">colnames</span>(d)) <span class="fu">setnames</span>(d, <span class="st">"Form"</span>, <span class="st">"Type"</span>)</span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># IF COLUMN NAME = "Mine production, fluorspar" CHANGE TO "Type"</span></span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="st">"Mine production, fluorspar"</span> <span class="sc">%in%</span> <span class="fu">colnames</span>(d)) <span class="fu">setnames</span>(d, <span class="st">"Mine production, fluorspar"</span>, <span class="st">"Type"</span>)</span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ADD Commodity COLUMN USING file_vars</span></span>
-<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>    d[, Commodity <span class="sc">:</span><span class="er">=</span> file_vars[i]<span class="sc">$</span>mineral]</span>
-<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ADD Meas_Unit COLUMN USING file_vars</span></span>
-<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>    d[, Meas_Unit <span class="sc">:</span><span class="er">=</span> file_vars[i]<span class="sc">$</span>unit]</span>
-<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># CREATE/REPLACE SOURCE COLUMN (sometimes doesn't exist)</span></span>
-<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>    d<span class="sc">$</span>Source <span class="ot">&lt;-</span> <span class="fu">toupper</span>(<span class="fu">substr</span>(<span class="fu">basename</span>(fpath), <span class="dv">1</span>, <span class="dv">7</span>))</span>
-<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># TRANSPOSE TO LONG FORMAT</span></span>
-<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>    m <span class="ot">&lt;-</span> <span class="fu">melt</span>(d,</span>
-<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>        <span class="at">id.vars =</span> <span class="fu">c</span>(<span class="st">"Source"</span>, <span class="st">"Commodity"</span>, <span class="st">"Country"</span>, <span class="st">"Type"</span>, <span class="st">"Meas_Unit"</span>),</span>
-<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>        <span class="at">variable.name =</span> <span class="st">"Meas_Name"</span>,</span>
-<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>        <span class="at">value.name =</span> <span class="st">"Value"</span>,</span>
-<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>        <span class="at">variable.factor =</span> F</span>
-<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># REMOVE NAs</span></span>
-<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>    m <span class="ot">&lt;-</span> m[<span class="sc">!</span><span class="fu">is.na</span>(Value), ]</span>
-<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># REMOVE IF COUNTY IS MISSING</span></span>
-<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>    m <span class="ot">&lt;-</span> m[Country <span class="sc">!=</span> <span class="st">""</span>, ]</span>
-<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ADD TO data.table</span></span>
-<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a>    dt_lng <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(<span class="fu">list</span>(dt_lng, m))</span>
-<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># FOR EACH ROW IN file_vars</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(file_vars)) {</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    fname <span class="ot">&lt;-</span> file_vars[i]<span class="sc">$</span>filename</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(fname)</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># FIX FILE NAMING ERROS BEFORE PROCESSING FILE</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    fname <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(fname, <span class="st">"-world"</span>, <span class="st">"_world"</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    fname <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(fname, <span class="st">"mgcom_"</span>, <span class="st">"mgcomp_"</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    fname <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(fname, <span class="st">"mcs2023-zirco_"</span>, <span class="st">"mcs2023-zirco-hafni_"</span>)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    fname <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(fname, <span class="st">"mcs2024-bismu_world"</span>, <span class="st">"MCS2024-bismu_world"</span>)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">substr</span>(fname, <span class="dv">8</span>, <span class="dv">8</span>) <span class="sc">==</span> <span class="st">"_"</span>) {</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>        fname <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(fname, <span class="st">"_"</span>, <span class="st">"-"</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># LOCATE AND READ FILE</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    fpath <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="fu">here</span>(<span class="st">"data/ingest"</span>), <span class="at">pattern =</span> fname, <span class="at">full.names =</span> T, <span class="at">recursive =</span> T)</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    d <span class="ot">&lt;-</span> <span class="fu">fread</span>(fpath, <span class="at">header =</span> T, <span class="at">colClasses =</span> <span class="fu">c</span>(<span class="st">"character"</span>))</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># IF COLUMN NAME = "Form" CHANGE TO "Type"</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="st">"Form"</span> <span class="sc">%in%</span> <span class="fu">colnames</span>(d)) <span class="fu">setnames</span>(d, <span class="st">"Form"</span>, <span class="st">"Type"</span>)</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># IF COLUMN NAME = "Mine production, fluorspar" CHANGE TO "Type"</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="st">"Mine production, fluorspar"</span> <span class="sc">%in%</span> <span class="fu">colnames</span>(d)) <span class="fu">setnames</span>(d, <span class="st">"Mine production, fluorspar"</span>, <span class="st">"Type"</span>)</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ADD Commodity COLUMN USING file_vars</span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>    d[, Commodity <span class="sc">:</span><span class="er">=</span> file_vars[i]<span class="sc">$</span>mineral]</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ADD Meas_Unit COLUMN USING file_vars</span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>    d[, Meas_Unit <span class="sc">:</span><span class="er">=</span> file_vars[i]<span class="sc">$</span>unit]</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># CREATE/REPLACE SOURCE COLUMN (sometimes doesn't exist)</span></span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>    d<span class="sc">$</span>Source <span class="ot">&lt;-</span> <span class="fu">toupper</span>(<span class="fu">substr</span>(<span class="fu">basename</span>(fpath), <span class="dv">1</span>, <span class="dv">7</span>))</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># TRANSPOSE TO LONG FORMAT</span></span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>    m <span class="ot">&lt;-</span> <span class="fu">melt</span>(d,</span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>        <span class="at">id.vars =</span> <span class="fu">c</span>(<span class="st">"Source"</span>, <span class="st">"Commodity"</span>, <span class="st">"Country"</span>, <span class="st">"Type"</span>, <span class="st">"Meas_Unit"</span>),</span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>        <span class="at">variable.name =</span> <span class="st">"Meas_Name"</span>,</span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>        <span class="at">value.name =</span> <span class="st">"Value"</span>,</span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>        <span class="at">variable.factor =</span> F</span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># REMOVE NAs</span></span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>    m <span class="ot">&lt;-</span> m[<span class="sc">!</span><span class="fu">is.na</span>(Value), ]</span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># REMOVE IF COUNTY IS MISSING</span></span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a>    m <span class="ot">&lt;-</span> m[Country <span class="sc">!=</span> <span class="st">""</span>, ]</span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ADD TO data.table</span></span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a>    dt_lng <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(<span class="fu">list</span>(dt_lng, m))</span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
             </div>
           </div>
         </section>
         <section id="finalize-2022-2024-data" class="level2">
           <h2 class="anchored" data-anchor-id="finalize-2022-2024-data">Finalize 2022-2024 Data</h2>
           <div class="cell">
-            <div class="sourceCode cell-code" id="cb16">
+            <div class="sourceCode cell-code" id="cb15">
               <pre
-                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ORDER COLUMNS</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>dt2224 <span class="ot">&lt;-</span> dt_lng[, .(Source, Commodity, Country, Type, Meas_Unit, Meas_Name, Value)]</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># CAPITALIZE COLUMN NAMES</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(dt2224) <span class="ot">&lt;-</span> <span class="fu">toupper</span>(<span class="fu">colnames</span>(dt2224))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ORDER COLUMNS</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>dt2224 <span class="ot">&lt;-</span> dt_lng[, .(Source, Commodity, Country, Type, Meas_Unit, Meas_Name, Value)]</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># CAPITALIZE COLUMN NAMES</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(dt2224) <span class="ot">&lt;-</span> <span class="fu">toupper</span>(<span class="fu">colnames</span>(dt2224))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
             </div>
           </div>
         </section>
         <section id="process-2025-data-file" class="level2">
           <h2 class="anchored" data-anchor-id="process-2025-data-file">Process 2025 Data File</h2>
           <div class="cell">
-            <div class="sourceCode cell-code" id="cb17">
+            <div class="sourceCode cell-code" id="cb16">
               <pre
-                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># LOAD 2025 FILE</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>d25 <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="fu">here</span>(<span class="st">"data/ingest/usgs_mineral_2025/MCS2025_World_Data.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># LOAD 2025 FILE</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>d25 <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="fu">here</span>(<span class="st">"data/ingest/usgs_mineral_2025/MCS2025_World_Data.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
             </div>
           </div>
         </section>
@@ -716,23 +487,23 @@
           <h2 class="anchored" data-anchor-id="fix-a-missing-data-item-sierra-leone-titanium-unit_meas">Fix a Missing
             Data Item (Sierra Leone Titanium UNIT_MEAS)</h2>
           <div class="cell">
-            <div class="sourceCode cell-code" id="cb18">
+            <div class="sourceCode cell-code" id="cb17">
               <pre
-                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>d25[<span class="fu">toupper</span>(COMMODITY) <span class="sc">%like%</span> <span class="st">"TITAN"</span> <span class="sc">&amp;</span> <span class="fu">toupper</span>(COUNTRY) <span class="sc">%like%</span> <span class="st">"SIERRA"</span>, UNIT_MEAS <span class="sc">:</span><span class="er">=</span> <span class="st">"metric tons"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>d25[<span class="fu">toupper</span>(COMMODITY) <span class="sc">%like%</span> <span class="st">"TITAN"</span> <span class="sc">&amp;</span> <span class="fu">toupper</span>(COUNTRY) <span class="sc">%like%</span> <span class="st">"SIERRA"</span>, UNIT_MEAS <span class="sc">:</span><span class="er">=</span> <span class="st">"metric tons"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
             </div>
           </div>
         </section>
         <section id="transpose-to-long-format" class="level2">
           <h2 class="anchored" data-anchor-id="transpose-to-long-format">Transpose to Long Format</h2>
           <div class="cell">
-            <div class="sourceCode cell-code" id="cb19">
+            <div class="sourceCode cell-code" id="cb18">
               <pre
-                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># MELT</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>d25m <span class="ot">&lt;-</span> <span class="fu">melt</span>(d25,</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">id.vars =</span> <span class="fu">c</span>(<span class="st">"SOURCE"</span>, <span class="st">"COMMODITY"</span>, <span class="st">"COUNTRY"</span>, <span class="st">"TYPE"</span>, <span class="st">"UNIT_MEAS"</span>),</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">variable.name =</span> <span class="st">"MEAS_NAME"</span>,</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">value.name =</span> <span class="st">"VALUE"</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># MELT</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>d25m <span class="ot">&lt;-</span> <span class="fu">melt</span>(d25,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">id.vars =</span> <span class="fu">c</span>(<span class="st">"SOURCE"</span>, <span class="st">"COMMODITY"</span>, <span class="st">"COUNTRY"</span>, <span class="st">"TYPE"</span>, <span class="st">"UNIT_MEAS"</span>),</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">variable.name =</span> <span class="st">"MEAS_NAME"</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">value.name =</span> <span class="st">"VALUE"</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
             </div>
             <div class="cell-output cell-output-stderr">
               <pre><code>Warning in melt.data.table(d25, id.vars = c("SOURCE", "COMMODITY", "COUNTRY", :
@@ -741,95 +512,95 @@ all of the same type. By order of hierarchy, the molten data value column will
 be of type 'character'. All measure variables not of type 'character' will be
 coerced too. Check DETAILS in ?melt.data.table for more on coercion.</code></pre>
             </div>
-            <div class="sourceCode cell-code" id="cb21">
+            <div class="sourceCode cell-code" id="cb20">
               <pre
-                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># UPDATE COLUMN NAME</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames</span>(d25m, <span class="st">"UNIT_MEAS"</span>, <span class="st">"MEAS_UNIT"</span>)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># CAPITALIZE MEAS_UNIT</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>d25m[, MEAS_UNIT <span class="sc">:</span><span class="er">=</span> <span class="fu">toupper</span>(MEAS_UNIT)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># UPDATE COLUMN NAME</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames</span>(d25m, <span class="st">"UNIT_MEAS"</span>, <span class="st">"MEAS_UNIT"</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># CAPITALIZE MEAS_UNIT</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>d25m[, MEAS_UNIT <span class="sc">:</span><span class="er">=</span> <span class="fu">toupper</span>(MEAS_UNIT)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
             </div>
           </div>
         </section>
         <section id="combine-2022-2025-files" class="level2">
           <h2 class="anchored" data-anchor-id="combine-2022-2025-files">Combine 2022-2025 Files</h2>
           <div class="cell">
-            <div class="sourceCode cell-code" id="cb22">
+            <div class="sourceCode cell-code" id="cb21">
               <pre
-                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># COMBINE 2022-2025</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>dt2225 <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(<span class="fu">list</span>(dt2224, d25m))</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># CONVERT FACTOR COLUMN TO CHARACTER (ANNOYING)</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>dt2225<span class="sc">$</span>MEAS_NAME <span class="ot">&lt;-</span> <span class="fu">as.character</span>(dt2225<span class="sc">$</span>MEAS_NAME)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># COMBINE 2022-2025</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>dt2225 <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(<span class="fu">list</span>(dt2224, d25m))</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># CONVERT FACTOR COLUMN TO CHARACTER (ANNOYING)</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>dt2225<span class="sc">$</span>MEAS_NAME <span class="ot">&lt;-</span> <span class="fu">as.character</span>(dt2225<span class="sc">$</span>MEAS_NAME)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
             </div>
           </div>
         </section>
         <section id="add-columns-and-set-values" class="level2">
           <h2 class="anchored" data-anchor-id="add-columns-and-set-values">Add Columns and Set Values</h2>
           <div class="cell">
-            <div class="sourceCode cell-code" id="cb23">
+            <div class="sourceCode cell-code" id="cb22">
               <pre
-                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ADD SRC_YR COLUMN</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>dt2225[, SRC_YR <span class="sc">:</span><span class="er">=</span> <span class="fu">substr</span>(SOURCE, <span class="dv">4</span>, <span class="dv">7</span>)]</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ADD MEAS_TYPE COLUMN</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>dt2225[<span class="fu">toupper</span>(MEAS_NAME) <span class="sc">%like%</span> <span class="st">"^PROD"</span>, MEAS_TYPE <span class="sc">:</span><span class="er">=</span> <span class="st">"Production"</span>]</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>dt2225[<span class="fu">toupper</span>(MEAS_NAME) <span class="sc">%like%</span> <span class="st">"^RESERV"</span>, MEAS_TYPE <span class="sc">:</span><span class="er">=</span> <span class="st">"Reserve"</span>]</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>dt2225[<span class="fu">toupper</span>(MEAS_NAME) <span class="sc">%like%</span> <span class="st">"^CAP"</span> <span class="sc">|</span> <span class="fu">toupper</span>(TYPE) <span class="sc">%like%</span> <span class="st">"CAPACITY"</span>, MEAS_TYPE <span class="sc">:</span><span class="er">=</span> <span class="st">"Capacity"</span>]</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co"># ADD ESTIMATED COLUMN</span></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>dt2225[<span class="fu">toupper</span>(MEAS_NAME) <span class="sc">%like%</span> <span class="st">"EST"</span>, ESTIMATED <span class="sc">:</span><span class="er">=</span> <span class="st">"Y"</span>]</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co"># ADD MEAS_YR COLUMN</span></span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>dt2225[<span class="sc">!</span><span class="fu">is.na</span>(MEAS_UNIT), MEAS_YR <span class="sc">:</span><span class="er">=</span> <span class="fu">substr</span>(MEAS_NAME, <span class="fu">nchar</span>(MEAS_NAME) <span class="sc">-</span> <span class="dv">3</span>, <span class="fu">nchar</span>(MEAS_NAME))]</span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>dt2225[<span class="sc">!</span><span class="fu">is.na</span>(MEAS_UNIT) <span class="sc">&amp;</span> <span class="fu">toupper</span>(MEAS_NAME) <span class="sc">%like%</span> <span class="st">"RESERV"</span>, MEAS_YR <span class="sc">:</span><span class="er">=</span> <span class="fu">as.integer</span>(SRC_YR) <span class="sc">-</span> <span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ADD SRC_YR COLUMN</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>dt2225[, SRC_YR <span class="sc">:</span><span class="er">=</span> <span class="fu">substr</span>(SOURCE, <span class="dv">4</span>, <span class="dv">7</span>)]</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ADD MEAS_TYPE COLUMN</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>dt2225[<span class="fu">toupper</span>(MEAS_NAME) <span class="sc">%like%</span> <span class="st">"^PROD"</span>, MEAS_TYPE <span class="sc">:</span><span class="er">=</span> <span class="st">"Production"</span>]</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>dt2225[<span class="fu">toupper</span>(MEAS_NAME) <span class="sc">%like%</span> <span class="st">"^RESERV"</span>, MEAS_TYPE <span class="sc">:</span><span class="er">=</span> <span class="st">"Reserve"</span>]</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>dt2225[<span class="fu">toupper</span>(MEAS_NAME) <span class="sc">%like%</span> <span class="st">"^CAP"</span> <span class="sc">|</span> <span class="fu">toupper</span>(TYPE) <span class="sc">%like%</span> <span class="st">"CAPACITY"</span>, MEAS_TYPE <span class="sc">:</span><span class="er">=</span> <span class="st">"Capacity"</span>]</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co"># ADD ESTIMATED COLUMN</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>dt2225[<span class="fu">toupper</span>(MEAS_NAME) <span class="sc">%like%</span> <span class="st">"EST"</span>, ESTIMATED <span class="sc">:</span><span class="er">=</span> <span class="st">"Y"</span>]</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="co"># ADD MEAS_YR COLUMN</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>dt2225[<span class="sc">!</span><span class="fu">is.na</span>(MEAS_UNIT), MEAS_YR <span class="sc">:</span><span class="er">=</span> <span class="fu">substr</span>(MEAS_NAME, <span class="fu">nchar</span>(MEAS_NAME) <span class="sc">-</span> <span class="dv">3</span>, <span class="fu">nchar</span>(MEAS_NAME))]</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>dt2225[<span class="sc">!</span><span class="fu">is.na</span>(MEAS_UNIT) <span class="sc">&amp;</span> <span class="fu">toupper</span>(MEAS_NAME) <span class="sc">%like%</span> <span class="st">"RESERV"</span>, MEAS_YR <span class="sc">:</span><span class="er">=</span> <span class="fu">as.integer</span>(SRC_YR) <span class="sc">-</span> <span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
             </div>
           </div>
         </section>
         <section id="edits" class="level2">
           <h2 class="anchored" data-anchor-id="edits">Edits</h2>
           <div class="cell">
-            <div class="sourceCode cell-code" id="cb24">
+            <div class="sourceCode cell-code" id="cb23">
               <pre
-                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># remove leading and following whitespace</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>dt2225[, VALUE <span class="sc">:</span><span class="er">=</span> <span class="fu">trimws</span>(VALUE)]</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># remove leading "e"</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>dt2225[VALUE <span class="sc">%like%</span> <span class="st">"^e[0-9]"</span>, VALUE <span class="sc">:</span><span class="er">=</span> <span class="fu">substr</span>(VALUE, <span class="dv">2</span>, <span class="fu">nchar</span>(VALUE))]</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co"># remove empty notes</span></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>dt2225 <span class="ot">&lt;-</span> dt2225[<span class="sc">!</span>(<span class="fu">is.na</span>(MEAS_UNIT) <span class="sc">&amp;</span> VALUE <span class="sc">==</span> <span class="st">""</span>), ]</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co"># notes don't have measurements</span></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>dt2225[<span class="fu">toupper</span>(MEAS_NAME) <span class="sc">%like%</span> <span class="st">"NOTE"</span>, MEAS_UNIT <span class="sc">:</span><span class="er">=</span> <span class="cn">NA</span>]</span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>dt2225[<span class="fu">toupper</span>(MEAS_NAME) <span class="sc">%like%</span> <span class="st">"NOTE"</span>, MEAS_YR <span class="sc">:</span><span class="er">=</span> <span class="cn">NA</span>]</span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="co"># remove meas_name = "V9" - from Barite file</span></span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>dt2225 <span class="ot">&lt;-</span> dt2225[<span class="sc">!</span>MEAS_NAME <span class="sc">%like%</span> <span class="st">"^V"</span>]</span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="co"># remove gt and lt symbols in VALUE</span></span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>dt2225[VALUE <span class="sc">%like%</span> <span class="st">"^&gt;"</span>, VALUE <span class="sc">:</span><span class="er">=</span> <span class="fu">substr</span>(VALUE, <span class="dv">2</span>, <span class="fu">nchar</span>(VALUE))]</span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>dt2225[VALUE <span class="sc">%like%</span> <span class="st">"^&lt;"</span>, VALUE <span class="sc">:</span><span class="er">=</span> <span class="fu">substr</span>(VALUE, <span class="dv">2</span>, <span class="fu">nchar</span>(VALUE))]</span>
-<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a><span class="co"># substitute and for &amp; in COMMODITY</span></span>
-<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">%like%</span> <span class="st">"&amp;"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="fu">str_replace_all</span>(COMMODITY, <span class="st">"&amp;"</span>, <span class="st">"and"</span>)]</span>
-<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a><span class="co"># remove where VALUE equals "XX" (meaning invalid)</span></span>
-<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>dt2225 <span class="ot">&lt;-</span> dt2225[<span class="sc">!</span>VALUE <span class="sc">==</span> <span class="st">"XX"</span>]</span>
-<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a><span class="co"># remove if NA or blank in VALUE</span></span>
-<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>dt2225 <span class="ot">&lt;-</span> dt2225[<span class="sc">!</span><span class="fu">is.na</span>(VALUE) <span class="sc">&amp;</span> VALUE <span class="sc">!=</span> <span class="st">""</span>]</span>
-<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a><span class="co"># capitalize COMMODITY, COUNTRY, and MEAS_TYPE</span></span>
-<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a>dt2225[, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="fu">toupper</span>(COMMODITY)]</span>
-<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a>dt2225[, COUNTRY <span class="sc">:</span><span class="er">=</span> <span class="fu">toupper</span>(COUNTRY)]</span>
-<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a>dt2225[, MEAS_TYPE <span class="sc">:</span><span class="er">=</span> <span class="fu">toupper</span>(MEAS_TYPE)]</span>
-<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a><span class="co"># add space before open parentheses</span></span>
-<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">%like%</span> <span class="st">"[A-Z]</span><span class="sc">\\</span><span class="st">("</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="fu">str_replace</span>(COMMODITY, <span class="st">"([A-Z])</span><span class="sc">\\</span><span class="st">("</span>, <span class="st">"</span><span class="sc">\\</span><span class="st">1 ("</span>)]</span>
-<span id="cb24-37"><a href="#cb24-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-38"><a href="#cb24-38" aria-hidden="true" tabindex="-1"></a><span class="co"># double dash to single and add space before and after</span></span>
-<span id="cb24-39"><a href="#cb24-39" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">%like%</span> <span class="st">"</span><span class="sc">\\</span><span class="st">)--[A-Z]"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="fu">str_replace</span>(COMMODITY, <span class="st">"--"</span>, <span class="st">" - "</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># remove leading and following whitespace</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>dt2225[, VALUE <span class="sc">:</span><span class="er">=</span> <span class="fu">trimws</span>(VALUE)]</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># remove leading "e"</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>dt2225[VALUE <span class="sc">%like%</span> <span class="st">"^e[0-9]"</span>, VALUE <span class="sc">:</span><span class="er">=</span> <span class="fu">substr</span>(VALUE, <span class="dv">2</span>, <span class="fu">nchar</span>(VALUE))]</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co"># remove empty notes</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>dt2225 <span class="ot">&lt;-</span> dt2225[<span class="sc">!</span>(<span class="fu">is.na</span>(MEAS_UNIT) <span class="sc">&amp;</span> VALUE <span class="sc">==</span> <span class="st">""</span>), ]</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co"># notes don't have measurements</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>dt2225[<span class="fu">toupper</span>(MEAS_NAME) <span class="sc">%like%</span> <span class="st">"NOTE"</span>, MEAS_UNIT <span class="sc">:</span><span class="er">=</span> <span class="cn">NA</span>]</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>dt2225[<span class="fu">toupper</span>(MEAS_NAME) <span class="sc">%like%</span> <span class="st">"NOTE"</span>, MEAS_YR <span class="sc">:</span><span class="er">=</span> <span class="cn">NA</span>]</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="co"># remove meas_name = "V9" - from Barite file</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>dt2225 <span class="ot">&lt;-</span> dt2225[<span class="sc">!</span>MEAS_NAME <span class="sc">%like%</span> <span class="st">"^V"</span>]</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="co"># remove gt and lt symbols in VALUE</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>dt2225[VALUE <span class="sc">%like%</span> <span class="st">"^&gt;"</span>, VALUE <span class="sc">:</span><span class="er">=</span> <span class="fu">substr</span>(VALUE, <span class="dv">2</span>, <span class="fu">nchar</span>(VALUE))]</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>dt2225[VALUE <span class="sc">%like%</span> <span class="st">"^&lt;"</span>, VALUE <span class="sc">:</span><span class="er">=</span> <span class="fu">substr</span>(VALUE, <span class="dv">2</span>, <span class="fu">nchar</span>(VALUE))]</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a><span class="co"># substitute and for &amp; in COMMODITY</span></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">%like%</span> <span class="st">"&amp;"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="fu">str_replace_all</span>(COMMODITY, <span class="st">"&amp;"</span>, <span class="st">"and"</span>)]</span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a><span class="co"># remove where VALUE equals "XX" (meaning invalid)</span></span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>dt2225 <span class="ot">&lt;-</span> dt2225[<span class="sc">!</span>VALUE <span class="sc">==</span> <span class="st">"XX"</span>]</span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a><span class="co"># remove if NA or blank in VALUE</span></span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>dt2225 <span class="ot">&lt;-</span> dt2225[<span class="sc">!</span><span class="fu">is.na</span>(VALUE) <span class="sc">&amp;</span> VALUE <span class="sc">!=</span> <span class="st">""</span>]</span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a><span class="co"># capitalize COMMODITY, COUNTRY, and MEAS_TYPE</span></span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a>dt2225[, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="fu">toupper</span>(COMMODITY)]</span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>dt2225[, COUNTRY <span class="sc">:</span><span class="er">=</span> <span class="fu">toupper</span>(COUNTRY)]</span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a>dt2225[, MEAS_TYPE <span class="sc">:</span><span class="er">=</span> <span class="fu">toupper</span>(MEAS_TYPE)]</span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a><span class="co"># add space before open parentheses</span></span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">%like%</span> <span class="st">"[A-Z]</span><span class="sc">\\</span><span class="st">("</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="fu">str_replace</span>(COMMODITY, <span class="st">"([A-Z])</span><span class="sc">\\</span><span class="st">("</span>, <span class="st">"</span><span class="sc">\\</span><span class="st">1 ("</span>)]</span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a><span class="co"># double dash to single and add space before and after</span></span>
+<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">%like%</span> <span class="st">"</span><span class="sc">\\</span><span class="st">)--[A-Z]"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="fu">str_replace</span>(COMMODITY, <span class="st">"--"</span>, <span class="st">" - "</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
             </div>
           </div>
         </section>
@@ -837,64 +608,64 @@ coerced too. Check DETAILS in ?melt.data.table for more on coercion.</code></pre
           <h2 class="anchored" data-anchor-id="harmonize-commodity-names---set-to-2025-names">Harmonize Commodity Names
             - Set to 2025 Names</h2>
           <div class="cell">
-            <div class="sourceCode cell-code" id="cb25">
+            <div class="sourceCode cell-code" id="cb24">
               <pre
-                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"BAUXITE AND ALUMINA"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="st">"BAUXITE"</span>]</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"NIOBIUM (COLUMBIUM)"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="st">"NIOBIUM"</span>]</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"MICA"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="st">"MICA (NATURAL)"</span>]</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"GRAPHITE (NATURAL)"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="st">"GRAPHITE"</span>]</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"FELDSPAR AND NEPHELINE SYENITE"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="st">"FELDSPAR"</span>]</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"TALC AND PYROPHYLLITE"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="st">"TALC, CRUDE"</span>]</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"ABRASIVES (MANUFACTURED)"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="st">"ABRASIVES"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"BAUXITE AND ALUMINA"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="st">"BAUXITE"</span>]</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"NIOBIUM (COLUMBIUM)"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="st">"NIOBIUM"</span>]</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"MICA"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="st">"MICA (NATURAL)"</span>]</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"GRAPHITE (NATURAL)"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="st">"GRAPHITE"</span>]</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"FELDSPAR AND NEPHELINE SYENITE"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="st">"FELDSPAR"</span>]</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"TALC AND PYROPHYLLITE"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="st">"TALC, CRUDE"</span>]</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"ABRASIVES (MANUFACTURED)"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="st">"ABRASIVES"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
             </div>
           </div>
         </section>
         <section id="corrections-for-wrong-data-entry" class="level2">
           <h2 class="anchored" data-anchor-id="corrections-for-wrong-data-entry">Corrections For Wrong Data Entry</h2>
           <div class="cell">
-            <div class="sourceCode cell-code" id="cb26">
+            <div class="sourceCode cell-code" id="cb25">
               <pre
-                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"GEMSTONES"</span>, MEAS_UNIT <span class="sc">:</span><span class="er">=</span> <span class="fu">toupper</span>(<span class="st">"thousands of carats of gem-quality diamond"</span>)]</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"MAGNESIUM COMPOUNDS"</span>, MEAS_UNIT <span class="sc">:</span><span class="er">=</span> <span class="fu">toupper</span>(<span class="st">"thousand metric tons"</span>)]</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"POTASH"</span>, MEAS_UNIT <span class="sc">:</span><span class="er">=</span> <span class="st">"THOUSAND METRIC TONS"</span>]</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"SELENIUM"</span>, MEAS_UNIT <span class="sc">:</span><span class="er">=</span> <span class="st">"METRIC TONS"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"GEMSTONES"</span>, MEAS_UNIT <span class="sc">:</span><span class="er">=</span> <span class="fu">toupper</span>(<span class="st">"thousands of carats of gem-quality diamond"</span>)]</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"MAGNESIUM COMPOUNDS"</span>, MEAS_UNIT <span class="sc">:</span><span class="er">=</span> <span class="fu">toupper</span>(<span class="st">"thousand metric tons"</span>)]</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"POTASH"</span>, MEAS_UNIT <span class="sc">:</span><span class="er">=</span> <span class="st">"THOUSAND METRIC TONS"</span>]</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"SELENIUM"</span>, MEAS_UNIT <span class="sc">:</span><span class="er">=</span> <span class="st">"METRIC TONS"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
             </div>
           </div>
         </section>
         <section id="fix-country-names" class="level2">
           <h2 class="anchored" data-anchor-id="fix-country-names">Fix Country Names</h2>
           <div class="cell">
-            <div class="sourceCode cell-code" id="cb27">
+            <div class="sourceCode cell-code" id="cb26">
               <pre
-                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># remove accents</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>dt2225[, COUNTRY <span class="sc">:</span><span class="er">=</span> stringi<span class="sc">::</span><span class="fu">stri_trans_general</span>(COUNTRY, <span class="st">"Latin-ASCII"</span>)]</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># only use country names from list</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>country_names <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"country_names.csv"</span>))</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (nm <span class="cf">in</span> country_names[, <span class="dv">1</span>]) {</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    dt2225[COUNTRY <span class="sc">%like%</span> <span class="fu">paste0</span>(<span class="st">"^"</span>, nm) <span class="sc">&amp;</span> <span class="sc">!</span>COUNTRY <span class="sc">==</span> <span class="st">"UNITED STATES AND CANADA"</span>, COUNTRY <span class="sc">:</span><span class="er">=</span> nm]</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="co"># dt2225[COUNTRY %like% "[0-9]$", COUNTRY := stringr::str_remove_all(COUNTRY, "[0-9]")]</span></span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="co"># dt2225[COUNTRY %like% "\\)$", COUNTRY := stringr::str_replace(COUNTRY, "(.*)\\(.*", "\\1")]</span></span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="co"># dt2225[, COUNTRY := stringr::str_replace_all(COUNTRY, "REPUBLIC OFE", "REPUBLIC OF")]</span></span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="co"># dt2225[(!COUNTRY %like% "KOREA" &amp; !COUNTRY %like% "WORLD") &amp; COUNTRY %like% ",", COUNTRY := stringr::str_replace(COUNTRY, "(.*),.*", "\\1")]</span></span>
-<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>dt2225[, COUNTRY <span class="sc">:</span><span class="er">=</span> <span class="fu">trimws</span>(COUNTRY)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># remove accents</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>dt2225[, COUNTRY <span class="sc">:</span><span class="er">=</span> stringi<span class="sc">::</span><span class="fu">stri_trans_general</span>(COUNTRY, <span class="st">"Latin-ASCII"</span>)]</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># only use country names from list</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>country_names <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"country_names.csv"</span>))</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (nm <span class="cf">in</span> country_names[, <span class="dv">1</span>]) {</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    dt2225[COUNTRY <span class="sc">%like%</span> <span class="fu">paste0</span>(<span class="st">"^"</span>, nm) <span class="sc">&amp;</span> <span class="sc">!</span>COUNTRY <span class="sc">==</span> <span class="st">"UNITED STATES AND CANADA"</span>, COUNTRY <span class="sc">:</span><span class="er">=</span> nm]</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co"># dt2225[COUNTRY %like% "[0-9]$", COUNTRY := stringr::str_remove_all(COUNTRY, "[0-9]")]</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="co"># dt2225[COUNTRY %like% "\\)$", COUNTRY := stringr::str_replace(COUNTRY, "(.*)\\(.*", "\\1")]</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="co"># dt2225[, COUNTRY := stringr::str_replace_all(COUNTRY, "REPUBLIC OFE", "REPUBLIC OF")]</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="co"># dt2225[(!COUNTRY %like% "KOREA" &amp; !COUNTRY %like% "WORLD") &amp; COUNTRY %like% ",", COUNTRY := stringr::str_replace(COUNTRY, "(.*),.*", "\\1")]</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>dt2225[, COUNTRY <span class="sc">:</span><span class="er">=</span> <span class="fu">trimws</span>(COUNTRY)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
             </div>
           </div>
         </section>
         <section id="write-final-combined-file" class="level2">
           <h2 class="anchored" data-anchor-id="write-final-combined-file">Write Final Combined File</h2>
           <div class="cell">
-            <div class="sourceCode cell-code" id="cb28">
+            <div class="sourceCode cell-code" id="cb27">
               <pre
-                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ORDER COLUMNS</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>dt2225 <span class="ot">&lt;-</span> dt2225[, .(SOURCE, COMMODITY, COUNTRY, TYPE, MEAS_UNIT, MEAS_NAME, MEAS_TYPE, SRC_YR, MEAS_YR, ESTIMATED, VALUE)]</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># WRITE FILE</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">fwrite</span>(dt2225, <span class="fu">here</span>(<span class="st">"data/output/world_mineral_commodity_reports_2022-2025.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ORDER COLUMNS</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>dt2225 <span class="ot">&lt;-</span> dt2225[, .(SOURCE, COMMODITY, COUNTRY, TYPE, MEAS_UNIT, MEAS_NAME, MEAS_TYPE, SRC_YR, MEAS_YR, ESTIMATED, VALUE)]</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># WRITE FILE</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">fwrite</span>(dt2225, <span class="fu">here</span>(<span class="st">"data/output/world_mineral_commodity_reports_2022-2025.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
             </div>
           </div>
         </section>
