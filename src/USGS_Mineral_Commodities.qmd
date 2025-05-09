@@ -1,9 +1,7 @@
 ---
 title: Ingest USGS Mineral Commodity Data Files
 format: html
-project:
-  type: website
-  output-dir: docs
+output-dir: docs
 ---
 
 ## Load Libraries
@@ -114,20 +112,20 @@ for (f in 1:length(xml_files)) {
             mineral <- "mineral not found"
         }
     }
-    print(mineral)
+    # print(mineral)
 
     # SET FILENAME
     for (j in 1:length(ents_list)) {
         e <- ents_list[[j]]$enttypl[[1]]
         if (grepl("world", e, fixed = TRUE)) {
-            print(e)
+            # print(e)
             filename <- e
             break
         } else {
             filename <- "filename not found"
         }
     }
-    print(filename)
+    # print(filename)
 
     # SET UNIT
     for (k in 1:length(attrunit_list)) {
@@ -139,7 +137,7 @@ for (f in 1:length(xml_files)) {
             unit <- "unit not found"
         }
     }
-    print(unit)
+    # print(unit)
 
     # IF BOTH MINERAL AND FILENAME ARE SET, ADD TO data.table
     if (mineral != "not found" && filename != "filename not found") {
