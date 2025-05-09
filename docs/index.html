@@ -1,0 +1,2232 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-1.7.24">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+  <title>Ingest USGS Mineral Commodity Data Files</title>
+  <style>
+    code {
+      white-space: pre-wrap;
+    }
+
+    span.smallcaps {
+      font-variant: small-caps;
+    }
+
+    div.columns {
+      display: flex;
+      gap: min(4vw, 1.5em);
+    }
+
+    div.column {
+      flex: auto;
+      overflow-x: auto;
+    }
+
+    div.hanging-indent {
+      margin-left: 1.5em;
+      text-indent: -1.5em;
+    }
+
+    ul.task-list {
+      list-style: none;
+    }
+
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em;
+      /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
+      vertical-align: middle;
+    }
+
+    /* CSS for syntax highlighting */
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
+
+    pre>code.sourceCode {
+      white-space: pre;
+      position: relative;
+    }
+
+    pre>code.sourceCode>span {
+      display: inline-block;
+      line-height: 1.25;
+    }
+
+    pre>code.sourceCode>span:empty {
+      height: 1.2em;
+    }
+
+    .sourceCode {
+      overflow: visible;
+    }
+
+    code.sourceCode>span {
+      color: inherit;
+      text-decoration: inherit;
+    }
+
+    div.sourceCode {
+      margin: 1em 0;
+    }
+
+    pre.sourceCode {
+      margin: 0;
+    }
+
+    @media screen {
+      div.sourceCode {
+        overflow: auto;
+      }
+    }
+
+    @media print {
+      pre>code.sourceCode {
+        white-space: pre-wrap;
+      }
+
+      pre>code.sourceCode>span {
+        text-indent: -5em;
+        padding-left: 5em;
+      }
+    }
+
+    pre.numberSource code {
+      counter-reset: source-line 0;
+    }
+
+    pre.numberSource code>span {
+      position: relative;
+      left: -4em;
+      counter-increment: source-line;
+    }
+
+    pre.numberSource code>span>a:first-child::before {
+      content: counter(source-line);
+      position: relative;
+      left: -1em;
+      text-align: right;
+      vertical-align: baseline;
+      border: none;
+      display: inline-block;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      padding: 0 4px;
+      width: 4em;
+    }
+
+    pre.numberSource {
+      margin-left: 3em;
+      padding-left: 4px;
+    }
+
+    div.sourceCode {}
+
+    @media screen {
+      pre>code.sourceCode>span>a:first-child::before {
+        text-decoration: underline;
+      }
+    }
+  </style>
+
+
+  <script src="USGS_Mineral_Commodities_files/libs/clipboard/clipboard.min.js"></script>
+  <script src="USGS_Mineral_Commodities_files/libs/quarto-html/quarto.js" type="module"></script>
+  <script src="USGS_Mineral_Commodities_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+  <script src="USGS_Mineral_Commodities_files/libs/quarto-html/popper.min.js"></script>
+  <script src="USGS_Mineral_Commodities_files/libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="USGS_Mineral_Commodities_files/libs/quarto-html/anchor.min.js"></script>
+  <link href="USGS_Mineral_Commodities_files/libs/quarto-html/tippy.css" rel="stylesheet">
+  <link
+    href="USGS_Mineral_Commodities_files/libs/quarto-html/quarto-syntax-highlighting-a37c72dd2dbac68997fcdc15a3622e78.css"
+    rel="stylesheet" id="quarto-text-highlighting-styles">
+  <script src="USGS_Mineral_Commodities_files/libs/bootstrap/bootstrap.min.js"></script>
+  <link href="USGS_Mineral_Commodities_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="USGS_Mineral_Commodities_files/libs/bootstrap/bootstrap-81267100e462c21b3d6c0d5bf76a3417.min.css"
+    rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+  <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+    <main class="content" id="quarto-document-content">
+
+      <header id="title-block-header" class="quarto-title-block default">
+        <div class="quarto-title">
+          <h1 class="title">Ingest USGS Mineral Commodity Data Files</h1>
+        </div>
+
+
+
+        <div class="quarto-title-meta">
+
+
+
+
+        </div>
+
+
+
+      </header>
+
+
+      <section id="load-libraries" class="level2">
+        <h2 class="anchored" data-anchor-id="load-libraries">Load Libraries</h2>
+        <div class="cell">
+          <div class="sourceCode cell-code" id="cb1">
+            <pre
+              class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+          </div>
+          <div class="cell-output cell-output-stderr">
+            <pre><code>here() starts at /Users/ads7fg/git/data.USGS</code></pre>
+          </div>
+          <div class="sourceCode cell-code" id="cb3">
+            <pre
+              class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(XML)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xml2)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+          </div>
+        </div>
+      </section>
+      <section id="ingest-commodity-files" class="level1">
+        <h1>1. Ingest Commodity Files</h1>
+        <section id="ingest-2025" class="level2">
+          <h2 class="anchored" data-anchor-id="ingest-2025">Ingest 2025</h2>
+          <div class="cell">
+            <div class="sourceCode cell-code" id="cb4">
+              <pre
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://www.sciencebase.gov/catalog/file/get/677eaf95d34e760b392c4970?f=__disk__70%2Fcf%2F36%2F70cf3695ad9405884df4a4758e4b609013e3fb1e"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">here</span>(<span class="st">"data/ingest/usgs_mineral_2025.zip"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span>(<span class="fu">here</span>(<span class="st">"data/ingest/usgs_mineral_2025.zip"</span>), <span class="at">exdir =</span> <span class="fu">here</span>(<span class="st">"data/ingest/usgs_mineral_2025/"</span>))</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">unlink</span>(<span class="fu">here</span>(<span class="st">"data/ingest/usgs_mineral_2025.zip"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+            </div>
+          </div>
+        </section>
+        <section id="ingest-2024" class="level2">
+          <h2 class="anchored" data-anchor-id="ingest-2024">Ingest 2024</h2>
+          <div class="cell">
+            <div class="sourceCode cell-code" id="cb5">
+              <pre
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://www.sciencebase.gov/catalog/file/get/65a6e45fd34e5af967a46749?f=__disk__9c%2F08%2Fa8%2F9c08a8bb0d04a87840f4f7f4ba489adf0d277f32"</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">here</span>(<span class="st">"data/ingest/usgs_mineral_2024.zip"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span>(<span class="fu">here</span>(<span class="st">"data/ingest/usgs_mineral_2024.zip"</span>), <span class="at">exdir =</span> <span class="fu">here</span>(<span class="st">"data/ingest/usgs_mineral_2024/"</span>))</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">unlink</span>(<span class="fu">here</span>(<span class="st">"data/ingest/usgs_mineral_2024.zip"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+            </div>
+          </div>
+        </section>
+        <section id="ingest-2023" class="level2">
+          <h2 class="anchored" data-anchor-id="ingest-2023">Ingest 2023</h2>
+          <div class="cell">
+            <div class="sourceCode cell-code" id="cb6">
+              <pre
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://www.sciencebase.gov/catalog/file/get/63b5f411d34e92aad3caa57f?f=__disk__52%2F8b%2Ff6%2F528bf6c0a324c889837f857d5fe7acf8d5a9965c"</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">here</span>(<span class="st">"data/ingest/usgs_mineral_2023.zip"</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span>(<span class="fu">here</span>(<span class="st">"data/ingest/usgs_mineral_2023.zip"</span>), <span class="at">exdir =</span> <span class="fu">here</span>(<span class="st">"data/ingest/usgs_mineral_2023/"</span>))</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">unlink</span>(<span class="fu">here</span>(<span class="st">"data/ingest/usgs_mineral_2023.zip"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+            </div>
+          </div>
+        </section>
+        <section id="ingest-2022" class="level2">
+          <h2 class="anchored" data-anchor-id="ingest-2022">Ingest 2022</h2>
+          <div class="cell">
+            <div class="sourceCode cell-code" id="cb7">
+              <pre
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://www.sciencebase.gov/catalog/file/get/6197ccbed34eb622f692ee1c?f=__disk__ef%2Fa8%2F27%2Fefa827f9cad2012de291a711b2a073b0a7cd4aa5"</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">here</span>(<span class="st">"data/ingest/usgs_mineral_2022.zip"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span>(<span class="fu">here</span>(<span class="st">"data/ingest/usgs_mineral_2022.zip"</span>), <span class="at">exdir =</span> <span class="fu">here</span>(<span class="st">"data/ingest/usgs_mineral_2022/"</span>))</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">unlink</span>(<span class="fu">here</span>(<span class="st">"data/ingest/usgs_mineral_2022.zip"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+            </div>
+          </div>
+        </section>
+      </section>
+      <section id="get-key-variables-and-file-names-from-xml" class="level1">
+        <h1>2. Get Key Variables and File Names (from XML)</h1>
+        <section id="load-xml-metadata-files" class="level2">
+          <h2 class="anchored" data-anchor-id="load-xml-metadata-files">Load XML Metadata Files</h2>
+          <div class="cell">
+            <div class="sourceCode cell-code" id="cb8">
+              <pre
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>xml_files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="fu">here</span>(<span class="st">"data/ingest"</span>), <span class="at">pattern =</span> <span class="st">"*.xml"</span>, <span class="at">full.names =</span> T, <span class="at">recursive =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+            </div>
+          </div>
+        </section>
+        <section id="set-data.table-structure" class="level2">
+          <h2 class="anchored" data-anchor-id="set-data.table-structure">Set data.table Structure</h2>
+          <div class="cell">
+            <div class="sourceCode cell-code" id="cb9">
+              <pre
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>mineral_files <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">year =</span> <span class="fu">character</span>(), <span class="at">mineral =</span> <span class="fu">character</span>(), <span class="at">unit =</span> <span class="fu">character</span>(), <span class="at">filename =</span> <span class="fu">character</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+            </div>
+          </div>
+        </section>
+        <section id="set-mineral-unit-and-file-name-with-path" class="level2">
+          <h2 class="anchored" data-anchor-id="set-mineral-unit-and-file-name-with-path">Set Mineral, Unit, and File
+            Name (with Path)</h2>
+          <div class="cell">
+            <div class="sourceCode cell-code" id="cb10">
+              <pre
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (f <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(xml_files)) {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># EXTRACT YEAR FROM FILENAME</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    yr <span class="ot">&lt;-</span> <span class="fu">str_extract</span>(xml_files[f], <span class="st">"[1-9][0-9][0-9][0-9]"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ONLY PROCESS =&lt; 2024</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (yr <span class="sc">&gt;</span> <span class="dv">2024</span>) <span class="cf">break</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PROCESS XML TO R OBJECTS</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    xml_txt <span class="ot">&lt;-</span> <span class="fu">read_file</span>(xml_files[f])</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    xml_txt <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(xml_txt, <span class="st">"</span><span class="sc">\\</span><span class="st">&amp;"</span>, <span class="st">"</span><span class="sc">\\</span><span class="st">&amp;amp;"</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    xml <span class="ot">&lt;-</span> <span class="fu">read_xml</span>(xml_txt)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    attrs <span class="ot">&lt;-</span> <span class="fu">xml_find_all</span>(xml, <span class="st">".//attr"</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    ents <span class="ot">&lt;-</span> <span class="fu">xml_find_all</span>(xml, <span class="st">".//enttyp"</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    attrunit <span class="ot">&lt;-</span> <span class="fu">xml_find_all</span>(xml, <span class="st">".//attrunit"</span>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    title <span class="ot">&lt;-</span> <span class="fu">as_list</span>(<span class="fu">xml_find_all</span>(xml, <span class="st">".//title"</span>)[<span class="dv">1</span>])[[<span class="dv">1</span>]][[<span class="dv">1</span>]]</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    attrs_list <span class="ot">&lt;-</span> <span class="fu">as_list</span>(attrs)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    ents_list <span class="ot">&lt;-</span> <span class="fu">as_list</span>(ents)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    attrunit_list <span class="ot">&lt;-</span> <span class="fu">as_list</span>(attrunit)</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># SET MINERAL NAME</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(attrs_list)) {</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>        a <span class="ot">&lt;-</span> attrs_list[[i]]</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (a<span class="sc">$</span>attrlabl[[<span class="dv">1</span>]] <span class="sc">==</span> <span class="st">"Commodity"</span>) {</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>            <span class="fu">print</span>(a<span class="sc">$</span>attrdomv<span class="sc">$</span>edom<span class="sc">$</span>edomv[[<span class="dv">1</span>]])</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>            mineral <span class="ot">&lt;-</span> <span class="fu">toupper</span>(a<span class="sc">$</span>attrdomv<span class="sc">$</span>edom<span class="sc">$</span>edomv[[<span class="dv">1</span>]])</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> <span class="cf">if</span> (<span class="fu">str_detect</span>(title, <span class="st">"Data Release"</span>)) {</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>            x <span class="ot">&lt;-</span> <span class="fu">as_list</span>(<span class="fu">xml_find_all</span>(xml, <span class="st">".//title"</span>)[<span class="dv">1</span>])[[<span class="dv">1</span>]][[<span class="dv">1</span>]]</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>            mineral <span class="ot">&lt;-</span> <span class="fu">substr</span>(x, <span class="fu">str_locate</span>(x, <span class="st">"[A-Z][A-Z]+"</span>)[<span class="dv">1</span>], <span class="fu">str_locate</span>(x, <span class="st">" Data Release"</span>)[<span class="dv">1</span>] <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> {</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>            mineral <span class="ot">&lt;-</span> <span class="st">"mineral not found"</span></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(mineral)</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># SET FILENAME</span></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(ents_list)) {</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>        e <span class="ot">&lt;-</span> ents_list[[j]]<span class="sc">$</span>enttypl[[<span class="dv">1</span>]]</span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (<span class="fu">grepl</span>(<span class="st">"world"</span>, e, <span class="at">fixed =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>            <span class="fu">print</span>(e)</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>            filename <span class="ot">&lt;-</span> e</span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> {</span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>            filename <span class="ot">&lt;-</span> <span class="st">"filename not found"</span></span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(filename)</span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>    <span class="co"># SET UNIT</span></span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(attrunit_list)) {</span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>        u <span class="ot">&lt;-</span> <span class="fu">trimws</span>(attrunit_list[[k]][[<span class="dv">1</span>]][[<span class="dv">1</span>]][[<span class="dv">1</span>]])</span>
+<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (u <span class="sc">!=</span> <span class="st">""</span> <span class="sc">&amp;</span> <span class="sc">!</span>u <span class="sc">%like%</span> <span class="st">","</span>) {</span>
+<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a>            unit <span class="ot">&lt;-</span> <span class="fu">toupper</span>(u)</span>
+<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> {</span>
+<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a>            unit <span class="ot">&lt;-</span> <span class="st">"unit not found"</span></span>
+<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(unit)</span>
+<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-62"><a href="#cb10-62" aria-hidden="true" tabindex="-1"></a>    <span class="co"># IF BOTH MINERAL AND FILENAME ARE SET, ADD TO data.table</span></span>
+<span id="cb10-63"><a href="#cb10-63" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (mineral <span class="sc">!=</span> <span class="st">"not found"</span> <span class="sc">&amp;&amp;</span> filename <span class="sc">!=</span> <span class="st">"filename not found"</span>) {</span>
+<span id="cb10-64"><a href="#cb10-64" aria-hidden="true" tabindex="-1"></a>        dt <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">year =</span> yr, <span class="at">mineral =</span> mineral, <span class="at">unit =</span> unit, <span class="at">filename =</span> filename)</span>
+<span id="cb10-65"><a href="#cb10-65" aria-hidden="true" tabindex="-1"></a>        mineral_files <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(<span class="fu">list</span>(mineral_files, dt))</span>
+<span id="cb10-66"><a href="#cb10-66" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb10-67"><a href="#cb10-67" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+            </div>
+            <div class="cell-output cell-output-stdout">
+              <pre><code>[1] "Abrasives (Manufactured)"
+[1] "ABRASIVES (MANUFACTURED)"
+[1] "mcs2022-abras_world.csv"
+[1] "mcs2022-abras_world.csv"
+[1] "METRIC TONS"
+[1] "Aluminum"
+[1] "ALUMINUM"
+[1] "mcs2022-alumi_world.csv"
+[1] "mcs2022-alumi_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Antimony"
+[1] "ANTIMONY"
+[1] "mcs2022-antim_world.csv"
+[1] "mcs2022-antim_world.csv"
+[1] "METRIC TONS"
+[1] "Arsenic"
+[1] "ARSENIC"
+[1] "mcs2022-arsen_world.csv"
+[1] "mcs2022-arsen_world.csv"
+[1] "METRIC TONS"
+[1] "Asbestos"
+[1] "ASBESTOS"
+[1] "mcs2022-asbes_world.csv"
+[1] "mcs2022-asbes_world.csv"
+[1] "METRIC TONS"
+[1] "Barite"
+[1] "BARITE"
+[1] "mcs2022-barit_world.csv"
+[1] "mcs2022-barit_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Bauxite and Alumina"
+[1] "BAUXITE AND ALUMINA"
+[1] "mcs2022-bauxi_world.csv"
+[1] "mcs2022-bauxi_world.csv"
+[1] "THOUSAND METRIC DRY TONS"
+[1] "Beryllium"
+[1] "BERYLLIUM"
+[1] "mcs2022-beryl_world.csv"
+[1] "mcs2022-beryl_world.csv"
+[1] "METRIC TONS"
+[1] "Bismuth"
+[1] "BISMUTH"
+[1] "mcs2022-bismu_world.csv"
+[1] "mcs2022-bismu_world.csv"
+[1] "METRIC TONS"
+[1] "Boron"
+[1] "BORON"
+[1] "mcs2022-boron_world.csv"
+[1] "mcs2022-boron_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Bromine"
+[1] "BROMINE"
+[1] "mcs2022-bromi-world.csv"
+[1] "mcs2022-bromi-world.csv"
+[1] "METRIC TONS"
+[1] "Cadmium"
+[1] "CADMIUM"
+[1] "mcs2022-cadmi_world.csv"
+[1] "mcs2022-cadmi_world.csv"
+[1] "METRIC TONS"
+[1] "Cement"
+[1] "CEMENT"
+[1] "mcs2022-cemen_world.csv"
+[1] "mcs2022-cemen_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Chromium"
+[1] "CHROMIUM"
+[1] "mcs2022-chrom-world.csv"
+[1] "mcs2022-chrom-world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Clays"
+[1] "CLAYS"
+[1] "mcs2022-clays_world.csv"
+[1] "mcs2022-clays_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Cobalt"
+[1] "COBALT"
+[1] "mcs2022-cobal_world.csv"
+[1] "mcs2022-cobal_world.csv"
+[1] "METRIC TONS"
+[1] "Copper"
+[1] "COPPER"
+[1] "mcs2022-coppe_world.csv"
+[1] "mcs2022-coppe_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Diamond (Industrial)"
+[1] "DIAMOND (INDUSTRIAL)"
+[1] "mcs2022-diamo-world.csv"
+[1] "mcs2022-diamo-world.csv"
+[1] "MILLION CARATS"
+[1] "Diatomite"
+[1] "DIATOMITE"
+[1] "mcs2022-diato_world.csv"
+[1] "mcs2022-diato_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Feldspar and Nepheline Syenite"
+[1] "FELDSPAR AND NEPHELINE SYENITE"
+[1] "mcs2022-felds_world.csv"
+[1] "mcs2022-felds_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Iron Ore"
+[1] "IRON ORE"
+[1] "mcs2022-feore_world.csv"
+[1] "mcs2022-feore_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Iron Oxide Pigments"
+[1] "IRON OXIDE PIGMENTS"
+[1] "mcs2022-fepig_world.csv"
+[1] "mcs2022-fepig_world.csv"
+[1] "METRIC TONS"
+[1] "Iron and Steel"
+[1] "IRON AND STEEL"
+[1] "mcs2022-feste_world.csv"
+[1] "mcs2022-feste_world.csv"
+[1] "MILLION METRIC TONS"
+[1] "Fluorspar"
+[1] "FLUORSPAR"
+[1] "mcs2022-fluor_world.csv"
+[1] "mcs2022-fluor_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Gallium"
+[1] "GALLIUM"
+[1] "mcs2022-galli-world.csv"
+[1] "mcs2022-galli-world.csv"
+[1] "KILOGRAMS"
+[1] "Garnet (Industrial)"
+[1] "GARNET (INDUSTRIAL)"
+[1] "mcs2022-garne-world.csv"
+[1] "mcs2022-garne-world.csv"
+[1] "METRIC TONS"
+[1] "Gemstones"
+[1] "GEMSTONES"
+[1] "mcs2022-gemst_world.csv"
+[1] "mcs2022-gemst_world.csv"
+[1] "MILLION DOLLARS"
+[1] "Germanium"
+[1] "GERMANIUM"
+[1] "mcs2022-germa_world.csv"
+[1] "mcs2022-germa_world.csv"
+[1] "KILOGRAMS"
+[1] "Gold"
+[1] "GOLD"
+[1] "mcs2022-gold_world.csv"
+[1] "mcs2022-gold_world.csv"
+[1] "METRIC TONS"
+[1] "Graphite (Natural)"
+[1] "GRAPHITE (NATURAL)"
+[1] "mcs2022-graph_world.csv"
+[1] "mcs2022-graph_world.csv"
+[1] "METRIC TONS"
+[1] "Gypsum"
+[1] "GYPSUM"
+[1] "mcs2022-gypsu_world.csv"
+[1] "mcs2022-gypsu_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Helium"
+[1] "HELIUM"
+[1] "mcs2022-heliu_world.csv"
+[1] "mcs2022-heliu_world.csv"
+[1] "MILLION CUBIC METERS"
+[1] "Indium"
+[1] "INDIUM"
+[1] "mcs2022-indiu_world.csv"
+[1] "mcs2022-indiu_world.csv"
+[1] "METRIC TONS"
+[1] "Iodine"
+[1] "IODINE"
+[1] "mcs2022-iodin_world.csv"
+[1] "mcs2022-iodin_world.csv"
+[1] "METRIC TONS"
+[1] "Kyanite and Related Minerals"
+[1] "KYANITE AND RELATED MINERALS"
+[1] "mcs2022_kyani_world.csv"
+[1] "mcs2022_kyani_world.csv"
+[1] "METRIC TONS"
+[1] "Lead"
+[1] "LEAD"
+[1] "mcs2022-lead_world.csv"
+[1] "mcs2022-lead_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Lime"
+[1] "LIME"
+[1] "mcs2022-lime_world.csv"
+[1] "mcs2022-lime_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Lithium"
+[1] "LITHIUM"
+[1] "mcs2022-lithi_world.csv"
+[1] "mcs2022-lithi_world.csv"
+[1] "METRIC TONS"
+[1] "Manganese"
+[1] "MANGANESE"
+[1] "mcs2022-manga_world.csv"
+[1] "mcs2022-manga_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Mercury"
+[1] "MERCURY"
+[1] "mcs2022-mercu_world.csv"
+[1] "mcs2022-mercu_world.csv"
+[1] "METRIC TONS"
+[1] "Magnesium Compounds"
+[1] "MAGNESIUM COMPOUNDS"
+[1] "mcs2022-mgcom-world.csv"
+[1] "mcs2022-mgcom-world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Magnesium Metal"
+[1] "MAGNESIUM METAL"
+[1] "mcs2022-mgmet_world.csv"
+[1] "mcs2022-mgmet_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Mica"
+[1] "MICA"
+[1] "mcs2022-mica_world.csv"
+[1] "mcs2022-mica_world.csv"
+[1] "METRIC TONS"
+[1] "Molybdenum"
+[1] "MOLYBDENUM"
+[1] "mcs2022-molyb_world.csv"
+[1] "mcs2022-molyb_world.csv"
+[1] "METRIC TONS"
+[1] "Nickel"
+[1] "NICKEL"
+[1] "mcs2022-nicke_world.csv"
+[1] "mcs2022-nicke_world.csv"
+[1] "METRIC TONS"
+[1] "Niobium (Columbium)"
+[1] "NIOBIUM (COLUMBIUM)"
+[1] "mcs2022-niobi_world.csv"
+[1] "mcs2022-niobi_world.csv"
+[1] "METRIC TONS"
+[1] "Nitrogen (Fixed)--Ammonia"
+[1] "NITROGEN (FIXED)--AMMONIA"
+[1] "mcs2022-nitro_world.csv"
+[1] "mcs2022-nitro_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Peat"
+[1] "PEAT"
+[1] "mcs2022-peat_world.csv"
+[1] "mcs2022-peat_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Perlite"
+[1] "PERLITE"
+[1] "mcs2022-perli_world.csv"
+[1] "mcs2022-perli_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Phosphate Rock"
+[1] "PHOSPHATE ROCK"
+[1] "mcs2022-phosp_world.csv"
+[1] "mcs2022-phosp_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Platinum-Group Metals"
+[1] "PLATINUM-GROUP METALS"
+[1] "mcs2022-plati_world.csv"
+[1] "mcs2022-plati_world.csv"
+[1] "KILOGRAMS"
+[1] "Potash"
+[1] "POTASH"
+[1] "mcs2022-potas-world.csv"
+[1] "mcs2022-potas-world.csv"
+[1] "THOUSAND METRIC TONS OF K2O EQUIVALENT"
+[1] "Pumice and Pumicite"
+[1] "PUMICE AND PUMICITE"
+[1] "mcs2022-pumic_world.csv"
+[1] "mcs2022-pumic_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Rare Earths"
+[1] "RARE EARTHS"
+[1] "mcs2022-raree_world.csv"
+[1] "mcs2022-raree_world.csv"
+[1] "METRIC TONS"
+[1] "Rhenium"
+[1] "RHENIUM"
+[1] "mcs2022-rheni_world.csv"
+[1] "mcs2022-rheni_world.csv"
+[1] "KILOGRAMS"
+[1] "Salt"
+[1] "SALT"
+[1] "mcs2022-salt_world.csv"
+[1] "mcs2022-salt_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Sand and Gravel (Industrial)"
+[1] "SAND AND GRAVEL (INDUSTRIAL)"
+[1] "mcs2022-sandi_world.csv"
+[1] "mcs2022-sandi_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Selenium"
+[1] "SELENIUM"
+[1] "mcs2022-selen_world.csv"
+[1] "mcs2022-selen_world.csv"
+[1] "METRIC TONS"
+[1] "Silver"
+[1] "SILVER"
+[1] "mcs2022-silve_world.csv"
+[1] "mcs2022-silve_world.csv"
+[1] "METRIC TONS"
+[1] "Silicon"
+[1] "SILICON"
+[1] "mcs2022-simet_world.csv"
+[1] "mcs2022-simet_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Soda Ash"
+[1] "SODA ASH"
+[1] "mcs2022-sodaa_world.csv"
+[1] "mcs2022-sodaa_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Strontium"
+[1] "STRONTIUM"
+[1] "mcs2022-stron_world.csv"
+[1] "mcs2022-stron_world.csv"
+[1] "METRIC TONS"
+[1] "Sulfur"
+[1] "SULFUR"
+[1] "mcs2022-sulfu_world.csv"
+[1] "mcs2022-sulfu_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Tantalum"
+[1] "TANTALUM"
+[1] "mcs2022-tanta_world.csv"
+[1] "mcs2022-tanta_world.csv"
+[1] "METRIC TONS"
+[1] "Tellurium"
+[1] "TELLURIUM"
+[1] "mcs2022-tellu_world.csv"
+[1] "mcs2022-tellu_world.csv"
+[1] "METRIC TONS"
+[1] "Titanium Mineral Concentrates"
+[1] "TITANIUM MINERAL CONCENTRATES"
+[1] "mcs2022-timin_world.csv"
+[1] "mcs2022-timin_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Tin"
+[1] "TIN"
+[1] "mcs2022-tin_world.csv"
+[1] "mcs2022-tin_world.csv"
+[1] "METRIC TONS"
+[1] "Titanium and Titanium Dioxide"
+[1] "TITANIUM AND TITANIUM DIOXIDE"
+[1] "mcs2022-titan_world.csv"
+[1] "mcs2022-titan_world.csv"
+[1] "METRIC TONS"
+[1] "Tungsten"
+[1] "TUNGSTEN"
+[1] "mcs2022-tungs_world.csv"
+[1] "mcs2022-tungs_world.csv"
+[1] "METRIC TONS"
+[1] "Vanadium"
+[1] "VANADIUM"
+[1] "mcs2022-vanad_world.csv"
+[1] "mcs2022-vanad_world.csv"
+[1] "METRIC TONS"
+[1] "Vermiculite"
+[1] "VERMICULITE"
+[1] "mcs2022-vermi_world.csv"
+[1] "mcs2022-vermi_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "WOLLASTONITE"
+[1] "mcs2022-wolla-world.csv"
+[1] "mcs2022-wolla-world.csv"
+[1] "METRIC TONS"
+[1] "Zeolites (Natural)"
+[1] "ZEOLITES (NATURAL)"
+[1] "mcs2022-zeoli_world.csv"
+[1] "mcs2022-zeoli_world.csv"
+[1] "METRIC TONS"
+[1] "Zinc"
+[1] "ZINC"
+[1] "mcs2022-zinc_world.csv"
+[1] "mcs2022-zinc_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Zirconium and Hafnium"
+[1] "ZIRCONIUM AND HAFNIUM"
+[1] "mcs2022-zirco_world.csv"
+[1] "mcs2022-zirco_world.csv"
+[1] "METRIC TONS"
+[1] "Abrasives (Manufactured)"
+[1] "ABRASIVES (MANUFACTURED)"
+[1] "mcs2023-abras_world.csv"
+[1] "mcs2023-abras_world.csv"
+[1] "METRIC TONS"
+[1] "Aluminum"
+[1] "ALUMINUM"
+[1] "mcs2023-alumi_world.csv"
+[1] "mcs2023-alumi_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Antimony"
+[1] "ANTIMONY"
+[1] "mcs2023-antim_world.csv"
+[1] "mcs2023-antim_world.csv"
+[1] "METRIC TONS"
+[1] "Arsenic"
+[1] "ARSENIC"
+[1] "mcs2023-arsen_world.csv"
+[1] "mcs2023-arsen_world.csv"
+[1] "METRIC TONS"
+[1] "Asbestos"
+[1] "ASBESTOS"
+[1] "mcs2023-asbes_world.csv"
+[1] "mcs2023-asbes_world.csv"
+[1] "METRIC TONS"
+[1] "Barite"
+[1] "BARITE"
+[1] "mcs2023-barit_world.csv"
+[1] "mcs2023-barit_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Bauxite and Alumina"
+[1] "BAUXITE AND ALUMINA"
+[1] "mcs2023-bauxi_world.csv"
+[1] "mcs2023-bauxi_world.csv"
+[1] "THOUSAND METRIC DRY TONS"
+[1] "Beryllium"
+[1] "BERYLLIUM"
+[1] "mcs2023-beryl_world.csv"
+[1] "mcs2023-beryl_world.csv"
+[1] "METRIC TONS"
+[1] "Bismuth"
+[1] "BISMUTH"
+[1] "mcs2023-bismu_world.csv"
+[1] "mcs2023-bismu_world.csv"
+[1] "METRIC TONS"
+[1] "Boron"
+[1] "BORON"
+[1] "mcs2023-boron_world.csv"
+[1] "mcs2023-boron_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Bromine"
+[1] "BROMINE"
+[1] "mcs2023-bromi-world.csv"
+[1] "mcs2023-bromi-world.csv"
+[1] "METRIC TONS"
+[1] "Cadmium"
+[1] "CADMIUM"
+[1] "mcs2023-cadmi_world.csv"
+[1] "mcs2023-cadmi_world.csv"
+[1] "METRIC TONS"
+[1] "Cement"
+[1] "CEMENT"
+[1] "mcs2023-cemen_world.csv"
+[1] "mcs2023-cemen_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Chromium"
+[1] "CHROMIUM"
+[1] "mcs2023-chrom-world.csv"
+[1] "mcs2023-chrom-world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Clays"
+[1] "CLAYS"
+[1] "mcs2023-clays_world.csv"
+[1] "mcs2023-clays_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Cobalt"
+[1] "COBALT"
+[1] "mcs2023-cobal_world.csv"
+[1] "mcs2023-cobal_world.csv"
+[1] "METRIC TONS"
+[1] "Copper"
+[1] "COPPER"
+[1] "mcs2023-coppe_world.csv"
+[1] "mcs2023-coppe_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Diamond (Industrial)"
+[1] "DIAMOND (INDUSTRIAL)"
+[1] "mcs2023-diamo-world.csv"
+[1] "mcs2023-diamo-world.csv"
+[1] "MILLION CARATS"
+[1] "Diatomite"
+[1] "DIATOMITE"
+[1] "mcs2023-diato_world.csv"
+[1] "mcs2023-diato_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Feldspar and Nepheline Syenite"
+[1] "FELDSPAR AND NEPHELINE SYENITE"
+[1] "mcs2023-felds_world.csv"
+[1] "mcs2023-felds_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Iron Ore"
+[1] "IRON ORE"
+[1] "mcs2023-feore_world.csv"
+[1] "mcs2023-feore_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Iron Oxide Pigments"
+[1] "IRON OXIDE PIGMENTS"
+[1] "mcs2023-fepig_world.csv"
+[1] "mcs2023-fepig_world.csv"
+[1] "METRIC TONS"
+[1] "Iron and Steel"
+[1] "IRON AND STEEL"
+[1] "mcs2023-feste_world.csv"
+[1] "mcs2023-feste_world.csv"
+[1] "MILLION METRIC TONS"
+[1] "Fluorspar"
+[1] "FLUORSPAR"
+[1] "mcs2023-fluor_world.csv"
+[1] "mcs2023-fluor_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Gallium"
+[1] "GALLIUM"
+[1] "mcs2023-galli-world.csv"
+[1] "mcs2023-galli-world.csv"
+[1] "KILOGRAMS"
+[1] "Garnet (Industrial)"
+[1] "GARNET (INDUSTRIAL)"
+[1] "mcs2023-garne-world.csv"
+[1] "mcs2023-garne-world.csv"
+[1] "METRIC TONS"
+[1] "Gemstones"
+[1] "GEMSTONES"
+[1] "mcs2023-gemst_world.csv"
+[1] "mcs2023-gemst_world.csv"
+[1] "MILLION DOLLARS"
+[1] "Germanium"
+[1] "GERMANIUM"
+[1] "mcs2023-germa_world.csv"
+[1] "mcs2023-germa_world.csv"
+[1] "KILOGRAMS"
+[1] "Gold"
+[1] "GOLD"
+[1] "mcs2023-gold_world.csv"
+[1] "mcs2023-gold_world.csv"
+[1] "METRIC TONS"
+[1] "Graphite (Natural)"
+[1] "GRAPHITE (NATURAL)"
+[1] "mcs2023-graph_world.csv"
+[1] "mcs2023-graph_world.csv"
+[1] "METRIC TONS"
+[1] "Gypsum"
+[1] "GYPSUM"
+[1] "mcs2023-gypsu_world.csv"
+[1] "mcs2023-gypsu_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Helium"
+[1] "HELIUM"
+[1] "mcs2023-heliu_world.csv"
+[1] "mcs2023-heliu_world.csv"
+[1] "MILLION CUBIC METERS"
+[1] "Indium"
+[1] "INDIUM"
+[1] "mcs2023-indiu_world.csv"
+[1] "mcs2023-indiu_world.csv"
+[1] "METRIC TONS"
+[1] "Iodine"
+[1] "IODINE"
+[1] "mcs2023-iodin_world.csv"
+[1] "mcs2023-iodin_world.csv"
+[1] "METRIC TONS"
+[1] "Kyanite and Related Minerals"
+[1] "KYANITE AND RELATED MINERALS"
+[1] "mcs2023_kyani_world.csv"
+[1] "mcs2023_kyani_world.csv"
+[1] "METRIC TONS"
+[1] "Lead"
+[1] "LEAD"
+[1] "mcs2023-lead_world.csv"
+[1] "mcs2023-lead_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Lime"
+[1] "LIME"
+[1] "mcs2023-lime_world.csv"
+[1] "mcs2023-lime_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Lithium"
+[1] "LITHIUM"
+[1] "mcs2023-lithi_world.csv"
+[1] "mcs2023-lithi_world.csv"
+[1] "METRIC TONS"
+[1] "Manganese"
+[1] "MANGANESE"
+[1] "mcs2023-manga_world.csv"
+[1] "mcs2023-manga_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Mercury"
+[1] "MERCURY"
+[1] "mcs2023-mercu_world.csv"
+[1] "mcs2023-mercu_world.csv"
+[1] "METRIC TONS"
+[1] "Magnesium Compounds"
+[1] "MAGNESIUM COMPOUNDS"
+[1] "mcs2023-mgcom-world.csv"
+[1] "mcs2023-mgcom-world.csv"
+[1] "NUMBER"
+[1] "Magnesium Metal"
+[1] "MAGNESIUM METAL"
+[1] "mcs2023-mgmet_world.csv"
+[1] "mcs2023-mgmet_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Mica"
+[1] "MICA"
+[1] "mcs2023-mica_world.csv"
+[1] "mcs2023-mica_world.csv"
+[1] "METRIC TONS"
+[1] "Molybdenum"
+[1] "MOLYBDENUM"
+[1] "mcs2023-molyb_world.csv"
+[1] "mcs2023-molyb_world.csv"
+[1] "METRIC TONS"
+[1] "Nickel"
+[1] "NICKEL"
+[1] "mcs2023-nicke_world.csv"
+[1] "mcs2023-nicke_world.csv"
+[1] "METRIC TONS"
+[1] "Niobium (Columbium)"
+[1] "NIOBIUM (COLUMBIUM)"
+[1] "mcs2023-niobi_world.csv"
+[1] "mcs2023-niobi_world.csv"
+[1] "METRIC TONS"
+[1] "Nitrogen (Fixed)--Ammonia"
+[1] "NITROGEN (FIXED)--AMMONIA"
+[1] "mcs2023-nitro_world.csv"
+[1] "mcs2023-nitro_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Peat"
+[1] "PEAT"
+[1] "mcs2023-peat_world.csv"
+[1] "mcs2023-peat_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Perlite"
+[1] "PERLITE"
+[1] "mcs2023-perli_world.csv"
+[1] "mcs2023-perli_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Phosphate Rock"
+[1] "PHOSPHATE ROCK"
+[1] "mcs2023-phosp_world.csv"
+[1] "mcs2023-phosp_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Platinum-Group Metals"
+[1] "PLATINUM-GROUP METALS"
+[1] "mcs2023-plati_world.csv"
+[1] "mcs2023-plati_world.csv"
+[1] "KILOGRAMS"
+[1] "Potash"
+[1] "POTASH"
+[1] "mcs2023-potas-world.csv"
+[1] "mcs2023-potas-world.csv"
+[1] "THOUSAND METRIC TONS OF K2O EQUIVALENT"
+[1] "Pumice and Pumicite"
+[1] "PUMICE AND PUMICITE"
+[1] "mcs2023-pumic_world.csv"
+[1] "mcs2023-pumic_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Rare Earths"
+[1] "RARE EARTHS"
+[1] "mcs2023-raree_world.csv"
+[1] "mcs2023-raree_world.csv"
+[1] "METRIC TONS"
+[1] "Rhenium"
+[1] "RHENIUM"
+[1] "mcs2023-rheni_world.csv"
+[1] "mcs2023-rheni_world.csv"
+[1] "KILOGRAMS"
+[1] "Salt"
+[1] "SALT"
+[1] "mcs2023-salt_world.csv"
+[1] "mcs2023-salt_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Sand and Gravel (Industrial)"
+[1] "SAND AND GRAVEL (INDUSTRIAL)"
+[1] "mcs2023-sandi_world.csv"
+[1] "mcs2023-sandi_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Selenium"
+[1] "SELENIUM"
+[1] "mcs2023-selen_world.csv"
+[1] "mcs2023-selen_world.csv"
+[1] "METRIC TONS CONTAINED SELENIUM"
+[1] "Silver"
+[1] "SILVER"
+[1] "mcs2023-silve_world.csv"
+[1] "mcs2023-silve_world.csv"
+[1] "METRIC TONS"
+[1] "Silicon"
+[1] "SILICON"
+[1] "mcs2023-simet_world.csv"
+[1] "mcs2023-simet_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Soda Ash"
+[1] "SODA ASH"
+[1] "mcs2023-sodaa_world.csv"
+[1] "mcs2023-sodaa_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Stone (Dimension)"
+[1] "STONE (DIMENSION)"
+[1] "mcs2023-stond_world.csv"
+[1] "mcs2023-stond_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Strontium"
+[1] "STRONTIUM"
+[1] "mcs2023-stron_world.csv"
+[1] "mcs2023-stron_world.csv"
+[1] "METRIC TONS"
+[1] "Sulfur"
+[1] "SULFUR"
+[1] "mcs2023-sulfu_world.csv"
+[1] "mcs2023-sulfu_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Talc and Pyrophyllite"
+[1] "TALC AND PYROPHYLLITE"
+[1] "mcs2023-talc_world.csv"
+[1] "mcs2023-talc_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Tantalum"
+[1] "TANTALUM"
+[1] "mcs2023-tanta_world.csv"
+[1] "mcs2023-tanta_world.csv"
+[1] "METRIC TONS"
+[1] "Tellurium"
+[1] "TELLURIUM"
+[1] "mcs2023-tellu_world.csv"
+[1] "mcs2023-tellu_world.csv"
+[1] "METRIC TONS"
+[1] "Titanium Mineral Concentrates"
+[1] "TITANIUM MINERAL CONCENTRATES"
+[1] "mcs2023-timin_world.csv"
+[1] "mcs2023-timin_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Tin"
+[1] "TIN"
+[1] "mcs2023-tin_world.csv"
+[1] "mcs2023-tin_world.csv"
+[1] "METRIC TONS"
+[1] "Titanium and Titanium Dioxide"
+[1] "TITANIUM AND TITANIUM DIOXIDE"
+[1] "mcs2023-titan_world.csv"
+[1] "mcs2023-titan_world.csv"
+[1] "METRIC TONS"
+[1] "Tungsten"
+[1] "TUNGSTEN"
+[1] "mcs2023-tungs_world.csv"
+[1] "mcs2023-tungs_world.csv"
+[1] "METRIC TONS"
+[1] "Vanadium"
+[1] "VANADIUM"
+[1] "mcs2023-vanad_world.csv"
+[1] "mcs2023-vanad_world.csv"
+[1] "METRIC TONS"
+[1] "Vermiculite"
+[1] "VERMICULITE"
+[1] "mcs2023-vanad_world.csv"
+[1] "mcs2023-vanad_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "WOLLASTONITE"
+[1] "mcs2023-wolla_world.csv"
+[1] "mcs2023-wolla_world.csv"
+[1] "METRIC TONS"
+[1] "Yttrium"
+[1] "YTTRIUM"
+[1] "filename not found"
+[1] "DOLLARS PER KILOGRAM"
+[1] "Zeolites (Natural)"
+[1] "ZEOLITES (NATURAL)"
+[1] "mcs2023-zeoli_world.csv"
+[1] "mcs2023-zeoli_world.csv"
+[1] "METRIC TONS"
+[1] "Zinc"
+[1] "ZINC"
+[1] "mcs2023-zinc_world.csv"
+[1] "mcs2023-zinc_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Zirconium and Hafnium"
+[1] "ZIRCONIUM AND HAFNIUM"
+[1] "mcs2023-zirco_world.csv"
+[1] "mcs2023-zirco_world.csv"
+[1] "METRIC TONS"
+[1] "Abrasives (Manufactured)"
+[1] "ABRASIVES (MANUFACTURED)"
+[1] "mcs2024-abras_world.csv"
+[1] "mcs2024-abras_world.csv"
+[1] "METRIC TONS"
+[1] "Aluminum"
+[1] "ALUMINUM"
+[1] "mcs2024-alumi_world.csv"
+[1] "mcs2024-alumi_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Antimony"
+[1] "ANTIMONY"
+[1] "mcs2024-antim_world.csv"
+[1] "mcs2024-antim_world.csv"
+[1] "METRIC TONS"
+[1] "Arsenic"
+[1] "ARSENIC"
+[1] "mcs2024-arsen_world.csv"
+[1] "mcs2024-arsen_world.csv"
+[1] "METRIC TONS"
+[1] "Asbestos"
+[1] "ASBESTOS"
+[1] "mcs2024-asbes_world.csv"
+[1] "mcs2024-asbes_world.csv"
+[1] "METRIC TONS"
+[1] "Barite"
+[1] "BARITE"
+[1] "mcs2024-barit_world.csv"
+[1] "mcs2024-barit_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Bauxite and Alumina"
+[1] "BAUXITE AND ALUMINA"
+[1] "mcs2024-bauxi_world.csv"
+[1] "mcs2024-bauxi_world.csv"
+[1] "THOUSAND METRIC DRY TONS"
+[1] "Beryllium"
+[1] "BERYLLIUM"
+[1] "mcs2024-beryl_world.csv"
+[1] "mcs2024-beryl_world.csv"
+[1] "METRIC TONS"
+[1] "Bismuth"
+[1] "BISMUTH"
+[1] "mcs2024-bismu_world.csv"
+[1] "mcs2024-bismu_world.csv"
+[1] "METRIC TONS"
+[1] "Boron"
+[1] "BORON"
+[1] "mcs2024-boron_world.csv"
+[1] "mcs2024-boron_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Bromine"
+[1] "BROMINE"
+[1] "mcs2024-bromi-world.csv"
+[1] "mcs2024-bromi-world.csv"
+[1] "METRIC TONS"
+[1] "Cadmium"
+[1] "CADMIUM"
+[1] "mcs2024-cadmi_world.csv"
+[1] "mcs2024-cadmi_world.csv"
+[1] "METRIC TONS"
+[1] "Cement"
+[1] "CEMENT"
+[1] "mcs2024-cemen_world.csv"
+[1] "mcs2024-cemen_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Chromium"
+[1] "CHROMIUM"
+[1] "mcs2024-chrom-world.csv"
+[1] "mcs2024-chrom-world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Clays"
+[1] "CLAYS"
+[1] "mcs2024-clays_world.csv"
+[1] "mcs2024-clays_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Cobalt"
+[1] "COBALT"
+[1] "mcs2024-cobal_world.csv"
+[1] "mcs2024-cobal_world.csv"
+[1] "METRIC TONS"
+[1] "Copper"
+[1] "COPPER"
+[1] "mcs2024-coppe_world.csv"
+[1] "mcs2024-coppe_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Diamond (Industrial)"
+[1] "DIAMOND (INDUSTRIAL)"
+[1] "mcs2024-diamo-world.csv"
+[1] "mcs2024-diamo-world.csv"
+[1] "MILLION CARATS"
+[1] "Diatomite"
+[1] "DIATOMITE"
+[1] "mcs2024-diato_world.csv"
+[1] "mcs2024-diato_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Feldspar and Nepheline Syenite"
+[1] "FELDSPAR AND NEPHELINE SYENITE"
+[1] "mcs2024-felds_world.csv"
+[1] "mcs2024-felds_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Iron Ore"
+[1] "IRON ORE"
+[1] "mcs2024-feore_world.csv"
+[1] "mcs2024-feore_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Iron Oxide Pigments"
+[1] "IRON OXIDE PIGMENTS"
+[1] "mcs2024-fepig_world.csv"
+[1] "mcs2024-fepig_world.csv"
+[1] "METRIC TONS"
+[1] "Iron and Steel"
+[1] "IRON AND STEEL"
+[1] "mcs2024-feste_world.csv"
+[1] "mcs2024-feste_world.csv"
+[1] "MILLION METRIC TONS"
+[1] "Fluorspar"
+[1] "FLUORSPAR"
+[1] "mcs2024-fluor_world.csv"
+[1] "mcs2024-fluor_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Gallium"
+[1] "GALLIUM"
+[1] "mcs2024-galli-world.csv"
+[1] "mcs2024-galli-world.csv"
+[1] "KILOGRAMS"
+[1] "Garnet (Industrial)"
+[1] "GARNET (INDUSTRIAL)"
+[1] "mcs2024-garne-world.csv"
+[1] "mcs2024-garne-world.csv"
+[1] "METRIC TONS"
+[1] "Gemstones"
+[1] "GEMSTONES"
+[1] "mcs2024-gemst_world.csv"
+[1] "mcs2024-gemst_world.csv"
+[1] "MILLION DOLLARS"
+[1] "Germanium"
+[1] "GERMANIUM"
+[1] "mcs2024-germa_world.csv"
+[1] "mcs2024-germa_world.csv"
+[1] "KILOGRAMS"
+[1] "Gold"
+[1] "GOLD"
+[1] "mcs2024-gold_world.csv"
+[1] "mcs2024-gold_world.csv"
+[1] "METRIC TONS"
+[1] "Graphite (Natural)"
+[1] "GRAPHITE (NATURAL)"
+[1] "mcs2024-graph_world.csv"
+[1] "mcs2024-graph_world.csv"
+[1] "METRIC TONS"
+[1] "Gypsum"
+[1] "GYPSUM"
+[1] "mcs2024-gypsu_world.csv"
+[1] "mcs2024-gypsu_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Helium"
+[1] "HELIUM"
+[1] "mcs2024-heliu_world.csv"
+[1] "mcs2024-heliu_world.csv"
+[1] "MILLION CUBIC METERS"
+[1] "Indium"
+[1] "INDIUM"
+[1] "mcs2024-indiu_world.csv"
+[1] "mcs2024-indiu_world.csv"
+[1] "METRIC TONS"
+[1] "Iodine"
+[1] "IODINE"
+[1] "mcs2024-iodin_world.csv"
+[1] "mcs2024-iodin_world.csv"
+[1] "METRIC TONS"
+[1] "Kyanite and Related Minerals"
+[1] "KYANITE AND RELATED MINERALS"
+[1] "mcs2024_kyani_world.csv"
+[1] "mcs2024_kyani_world.csv"
+[1] "METRIC TONS"
+[1] "Lead"
+[1] "LEAD"
+[1] "mcs2024-lead_world.csv"
+[1] "mcs2024-lead_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Lime"
+[1] "LIME"
+[1] "mcs2024-lime_world.csv"
+[1] "mcs2024-lime_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Lithium"
+[1] "LITHIUM"
+[1] "mcs2024-lithi_world.csv"
+[1] "mcs2024-lithi_world.csv"
+[1] "METRIC TONS"
+[1] "Manganese"
+[1] "MANGANESE"
+[1] "mcs2024-manga_world.csv"
+[1] "mcs2024-manga_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Mercury"
+[1] "MERCURY"
+[1] "mcs2024-mercu_world.csv"
+[1] "mcs2024-mercu_world.csv"
+[1] "METRIC TONS"
+[1] "Magnesium Compounds"
+[1] "MAGNESIUM COMPOUNDS"
+[1] "mcs2024-mgcom-world.csv"
+[1] "mcs2024-mgcom-world.csv"
+[1] "NUMBER"
+[1] "Magnesium Metal"
+[1] "MAGNESIUM METAL"
+[1] "mcs2024-mgmet_world.csv"
+[1] "mcs2024-mgmet_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Mica"
+[1] "MICA"
+[1] "mcs2024-mica_world.csv"
+[1] "mcs2024-mica_world.csv"
+[1] "METRIC TONS"
+[1] "Molybdenum"
+[1] "MOLYBDENUM"
+[1] "mcs2024-molyb_world.csv"
+[1] "mcs2024-molyb_world.csv"
+[1] "METRIC TONS"
+[1] "Nickel"
+[1] "NICKEL"
+[1] "mcs2024-nicke_world.csv"
+[1] "mcs2024-nicke_world.csv"
+[1] "METRIC TONS"
+[1] "Niobium (Columbium)"
+[1] "NIOBIUM (COLUMBIUM)"
+[1] "mcs2024-niobi_world.csv"
+[1] "mcs2024-niobi_world.csv"
+[1] "METRIC TONS"
+[1] "Nitrogen (Fixed)--Ammonia"
+[1] "NITROGEN (FIXED)--AMMONIA"
+[1] "mcs2024-nitro_world.csv"
+[1] "mcs2024-nitro_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Peat"
+[1] "PEAT"
+[1] "mcs2024-peat_world.csv"
+[1] "mcs2024-peat_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Perlite"
+[1] "PERLITE"
+[1] "mcs2024-perli_world.csv"
+[1] "mcs2024-perli_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Phosphate Rock"
+[1] "PHOSPHATE ROCK"
+[1] "mcs2024-phosp_world.csv"
+[1] "mcs2024-phosp_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Platinum-Group Metals"
+[1] "PLATINUM-GROUP METALS"
+[1] "mcs2024-plati_world.csv"
+[1] "mcs2024-plati_world.csv"
+[1] "KILOGRAMS"
+[1] "Potash"
+[1] "POTASH"
+[1] "mcs2024-potas-world.csv"
+[1] "mcs2024-potas-world.csv"
+[1] "THOUSAND METRIC TONS OF K2O EQUIVALENT"
+[1] "Pumice and Pumicite"
+[1] "PUMICE AND PUMICITE"
+[1] "mcs2024-pumic_world.csv"
+[1] "mcs2024-pumic_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Rare Earths"
+[1] "RARE EARTHS"
+[1] "mcs2024-raree_world.csv"
+[1] "mcs2024-raree_world.csv"
+[1] "METRIC TONS"
+[1] "Rhenium"
+[1] "RHENIUM"
+[1] "mcs2024-rheni_world.csv"
+[1] "mcs2024-rheni_world.csv"
+[1] "KILOGRAMS"
+[1] "Salt"
+[1] "SALT"
+[1] "mcs2024-salt_world.csv"
+[1] "mcs2024-salt_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Sand and Gravel (Industrial)"
+[1] "SAND AND GRAVEL (INDUSTRIAL)"
+[1] "mcs2024-sandi_world.csv"
+[1] "mcs2024-sandi_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Selenium"
+[1] "SELENIUM"
+[1] "mcs2024-selen_world.csv"
+[1] "mcs2024-selen_world.csv"
+[1] "METRIC TONS CONTAINED SELENIUM"
+[1] "Silver"
+[1] "SILVER"
+[1] "mcs2024-silve_world.csv"
+[1] "mcs2024-silve_world.csv"
+[1] "METRIC TONS"
+[1] "Silicon"
+[1] "SILICON"
+[1] "mcs2024-simet_world.csv"
+[1] "mcs2024-simet_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Soda Ash"
+[1] "SODA ASH"
+[1] "mcs2024-sodaa_world.csv"
+[1] "mcs2024-sodaa_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Stone (Dimension)"
+[1] "STONE (DIMENSION)"
+[1] "mcs2024-stond_world.csv"
+[1] "mcs2024-stond_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Strontium"
+[1] "STRONTIUM"
+[1] "mcs2024-stron_world.csv"
+[1] "mcs2024-stron_world.csv"
+[1] "METRIC TONS"
+[1] "Sulfur"
+[1] "SULFUR"
+[1] "mcs2024-sulfu_world.csv"
+[1] "mcs2024-sulfu_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Talc and Pyrophyllite"
+[1] "TALC AND PYROPHYLLITE"
+[1] "mcs2024-talc_world.csv"
+[1] "mcs2024-talc_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Tantalum"
+[1] "TANTALUM"
+[1] "mcs2024-tanta_world.csv"
+[1] "mcs2024-tanta_world.csv"
+[1] "METRIC TONS"
+[1] "Tellurium"
+[1] "TELLURIUM"
+[1] "mcs2024-tellu_world.csv"
+[1] "mcs2024-tellu_world.csv"
+[1] "METRIC TONS"
+[1] "Titanium Mineral Concentrates"
+[1] "TITANIUM MINERAL CONCENTRATES"
+[1] "mcs2024-timin_world.csv"
+[1] "mcs2024-timin_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Tin"
+[1] "TIN"
+[1] "mcs2024-tin_world.csv"
+[1] "mcs2024-tin_world.csv"
+[1] "METRIC TONS"
+[1] "Titanium and Titanium Dioxide"
+[1] "TITANIUM AND TITANIUM DIOXIDE"
+[1] "mcs2024-titan_world.csv"
+[1] "mcs2024-titan_world.csv"
+[1] "METRIC TONS"
+[1] "Tungsten"
+[1] "TUNGSTEN"
+[1] "mcs2024-tungs_world.csv"
+[1] "mcs2024-tungs_world.csv"
+[1] "METRIC TONS"
+[1] "Vanadium"
+[1] "VANADIUM"
+[1] "mcs2024-vanad_world.csv"
+[1] "mcs2024-vanad_world.csv"
+[1] "METRIC TONS"
+[1] "Vermiculite"
+[1] "VERMICULITE"
+[1] "mcs2024-vanad_world.csv"
+[1] "mcs2024-vanad_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "WOLLASTONITE"
+[1] "mcs2024-wolla_world.csv"
+[1] "mcs2024-wolla_world.csv"
+[1] "METRIC TONS"
+[1] "Zeolites (Natural)"
+[1] "ZEOLITES (NATURAL)"
+[1] "mcs2024-zeoli_world.csv"
+[1] "mcs2024-zeoli_world.csv"
+[1] "METRIC TONS"
+[1] "Zinc"
+[1] "ZINC"
+[1] "mcs2024-zinc_world.csv"
+[1] "mcs2024-zinc_world.csv"
+[1] "THOUSAND METRIC TONS"
+[1] "Zirconium and Hafnium"
+[1] "ZIRCONIUM AND HAFNIUM"
+[1] "mcs2024-zirco_world.csv"
+[1] "mcs2024-zirco_world.csv"
+[1] "METRIC TONS"</code></pre>
+            </div>
+          </div>
+        </section>
+        <section id="write-to-file" class="level2">
+          <h2 class="anchored" data-anchor-id="write-to-file">Write to File</h2>
+          <div class="cell">
+            <div class="sourceCode cell-code" id="cb12">
+              <pre
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fwrite</span>(mineral_files, <span class="fu">here</span>(<span class="st">"data/working/mineral_file_names_before_2025.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+            </div>
+          </div>
+        </section>
+      </section>
+      <section id="create-combined-commodity-file" class="level1">
+        <h1>3. Create Combined Commodity File</h1>
+        <p>The data files are varied in their format. There was no followed standard for column number or column names.
+          We convert all data files to long (tidy) format - one reading/measurement/comment per row. Doing so gives each
+          dataset the same set of columns (Commodity, Country, Type, Meas_Unit, Meas_Name, and Value) so that they can
+          be merged. The measure name (Meas_Name) is the former name of the data column. For example, if a data column
+          was named “Cap_t_est_2020”, that name now becomes Meas_Name (and each data entry gets its own row).</p>
+        <section id="set-data.table-structure-1" class="level2">
+          <h2 class="anchored" data-anchor-id="set-data.table-structure-1">Set data.table Structure</h2>
+          <div class="cell">
+            <div class="sourceCode cell-code" id="cb13">
+              <pre
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dt_lng <span class="ot">&lt;-</span> <span class="fu">data.table</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">Source =</span> <span class="fu">character</span>(),</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Commodity =</span> <span class="fu">character</span>(),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Country =</span> <span class="fu">character</span>(),</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Type =</span> <span class="fu">character</span>(),</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Meas_Unit =</span> <span class="fu">character</span>(),</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Meas_Name =</span> <span class="fu">character</span>(),</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Value =</span> <span class="fu">character</span>()</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+            </div>
+          </div>
+        </section>
+        <section id="read-minerals-units-and-file-names-from-file" class="level2">
+          <h2 class="anchored" data-anchor-id="read-minerals-units-and-file-names-from-file">Read Minerals, Units, and
+            File Names from File</h2>
+          <div class="cell">
+            <div class="sourceCode cell-code" id="cb14">
+              <pre
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>file_vars <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="fu">here</span>(<span class="st">"data/working/mineral_file_names_before_2025.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+            </div>
+          </div>
+        </section>
+        <section id="process-2022-2024-data-files" class="level2">
+          <h2 class="anchored" data-anchor-id="process-2022-2024-data-files">Process 2022-2024 Data Files</h2>
+          <div class="cell">
+            <div class="sourceCode cell-code" id="cb15">
+              <pre
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># FOR EACH ROW IN file_vars</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(file_vars)) {</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    fname <span class="ot">&lt;-</span> file_vars[i]<span class="sc">$</span>filename</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(fname)</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># FIX FILE NAMING ERROS BEFORE PROCESSING FILE</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    fname <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(fname, <span class="st">"-world"</span>, <span class="st">"_world"</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    fname <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(fname, <span class="st">"mgcom_"</span>, <span class="st">"mgcomp_"</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    fname <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(fname, <span class="st">"mcs2023-zirco_"</span>, <span class="st">"mcs2023-zirco-hafni_"</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    fname <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(fname, <span class="st">"mcs2024-bismu_world"</span>, <span class="st">"MCS2024-bismu_world"</span>)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">substr</span>(fname, <span class="dv">8</span>, <span class="dv">8</span>) <span class="sc">==</span> <span class="st">"_"</span>) {</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>        fname <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(fname, <span class="st">"_"</span>, <span class="st">"-"</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># LOCATE AND READ FILE</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    fpath <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="fu">here</span>(<span class="st">"data/ingest"</span>), <span class="at">pattern =</span> fname, <span class="at">full.names =</span> T, <span class="at">recursive =</span> T)</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    d <span class="ot">&lt;-</span> <span class="fu">fread</span>(fpath, <span class="at">header =</span> T, <span class="at">colClasses =</span> <span class="fu">c</span>(<span class="st">"character"</span>))</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># IF COLUMN NAME = "Form" CHANGE TO "Type"</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="st">"Form"</span> <span class="sc">%in%</span> <span class="fu">colnames</span>(d)) <span class="fu">setnames</span>(d, <span class="st">"Form"</span>, <span class="st">"Type"</span>)</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># IF COLUMN NAME = "Mine production, fluorspar" CHANGE TO "Type"</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="st">"Mine production, fluorspar"</span> <span class="sc">%in%</span> <span class="fu">colnames</span>(d)) <span class="fu">setnames</span>(d, <span class="st">"Mine production, fluorspar"</span>, <span class="st">"Type"</span>)</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ADD Commodity COLUMN USING file_vars</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>    d[, Commodity <span class="sc">:</span><span class="er">=</span> file_vars[i]<span class="sc">$</span>mineral]</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ADD Meas_Unit COLUMN USING file_vars</span></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>    d[, Meas_Unit <span class="sc">:</span><span class="er">=</span> file_vars[i]<span class="sc">$</span>unit]</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># CREATE/REPLACE SOURCE COLUMN (sometimes doesn't exist)</span></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>    d<span class="sc">$</span>Source <span class="ot">&lt;-</span> <span class="fu">toupper</span>(<span class="fu">substr</span>(<span class="fu">basename</span>(fpath), <span class="dv">1</span>, <span class="dv">7</span>))</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># TRANSPOSE TO LONG FORMAT</span></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>    m <span class="ot">&lt;-</span> <span class="fu">melt</span>(d,</span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>        <span class="at">id.vars =</span> <span class="fu">c</span>(<span class="st">"Source"</span>, <span class="st">"Commodity"</span>, <span class="st">"Country"</span>, <span class="st">"Type"</span>, <span class="st">"Meas_Unit"</span>),</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>        <span class="at">variable.name =</span> <span class="st">"Meas_Name"</span>,</span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>        <span class="at">value.name =</span> <span class="st">"Value"</span>,</span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>        <span class="at">variable.factor =</span> F</span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># REMOVE NAs</span></span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>    m <span class="ot">&lt;-</span> m[<span class="sc">!</span><span class="fu">is.na</span>(Value), ]</span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># REMOVE IF COUNTY IS MISSING</span></span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>    m <span class="ot">&lt;-</span> m[Country <span class="sc">!=</span> <span class="st">""</span>, ]</span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ADD TO data.table</span></span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a>    dt_lng <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(<span class="fu">list</span>(dt_lng, m))</span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+            </div>
+          </div>
+        </section>
+        <section id="finalize-2022-2024-data" class="level2">
+          <h2 class="anchored" data-anchor-id="finalize-2022-2024-data">Finalize 2022-2024 Data</h2>
+          <div class="cell">
+            <div class="sourceCode cell-code" id="cb16">
+              <pre
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ORDER COLUMNS</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>dt2224 <span class="ot">&lt;-</span> dt_lng[, .(Source, Commodity, Country, Type, Meas_Unit, Meas_Name, Value)]</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># CAPITALIZE COLUMN NAMES</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(dt2224) <span class="ot">&lt;-</span> <span class="fu">toupper</span>(<span class="fu">colnames</span>(dt2224))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+            </div>
+          </div>
+        </section>
+        <section id="process-2025-data-file" class="level2">
+          <h2 class="anchored" data-anchor-id="process-2025-data-file">Process 2025 Data File</h2>
+          <div class="cell">
+            <div class="sourceCode cell-code" id="cb17">
+              <pre
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># LOAD 2025 FILE</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>d25 <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="fu">here</span>(<span class="st">"data/ingest/usgs_mineral_2025/MCS2025_World_Data.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+            </div>
+          </div>
+        </section>
+        <section id="fix-a-missing-data-item-sierra-leone-titanium-unit_meas" class="level2">
+          <h2 class="anchored" data-anchor-id="fix-a-missing-data-item-sierra-leone-titanium-unit_meas">Fix a Missing
+            Data Item (Sierra Leone Titanium UNIT_MEAS)</h2>
+          <div class="cell">
+            <div class="sourceCode cell-code" id="cb18">
+              <pre
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>d25[<span class="fu">toupper</span>(COMMODITY) <span class="sc">%like%</span> <span class="st">"TITAN"</span> <span class="sc">&amp;</span> <span class="fu">toupper</span>(COUNTRY) <span class="sc">%like%</span> <span class="st">"SIERRA"</span>, UNIT_MEAS <span class="sc">:</span><span class="er">=</span> <span class="st">"metric tons"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+            </div>
+          </div>
+        </section>
+        <section id="transpose-to-long-format" class="level2">
+          <h2 class="anchored" data-anchor-id="transpose-to-long-format">Transpose to Long Format</h2>
+          <div class="cell">
+            <div class="sourceCode cell-code" id="cb19">
+              <pre
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># MELT</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>d25m <span class="ot">&lt;-</span> <span class="fu">melt</span>(d25,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">id.vars =</span> <span class="fu">c</span>(<span class="st">"SOURCE"</span>, <span class="st">"COMMODITY"</span>, <span class="st">"COUNTRY"</span>, <span class="st">"TYPE"</span>, <span class="st">"UNIT_MEAS"</span>),</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">variable.name =</span> <span class="st">"MEAS_NAME"</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">value.name =</span> <span class="st">"VALUE"</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+            </div>
+            <div class="cell-output cell-output-stderr">
+              <pre><code>Warning in melt.data.table(d25, id.vars = c("SOURCE", "COMMODITY", "COUNTRY", :
+'measure.vars' [PROD_2023, PROD_EST_ 2024, PROD_NOTES, CAP_2023, ...] are not
+all of the same type. By order of hierarchy, the molten data value column will
+be of type 'character'. All measure variables not of type 'character' will be
+coerced too. Check DETAILS in ?melt.data.table for more on coercion.</code></pre>
+            </div>
+            <div class="sourceCode cell-code" id="cb21">
+              <pre
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># UPDATE COLUMN NAME</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames</span>(d25m, <span class="st">"UNIT_MEAS"</span>, <span class="st">"MEAS_UNIT"</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># CAPITALIZE MEAS_UNIT</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>d25m[, MEAS_UNIT <span class="sc">:</span><span class="er">=</span> <span class="fu">toupper</span>(MEAS_UNIT)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+            </div>
+          </div>
+        </section>
+        <section id="combine-2022-2025-files" class="level2">
+          <h2 class="anchored" data-anchor-id="combine-2022-2025-files">Combine 2022-2025 Files</h2>
+          <div class="cell">
+            <div class="sourceCode cell-code" id="cb22">
+              <pre
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># COMBINE 2022-2025</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>dt2225 <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(<span class="fu">list</span>(dt2224, d25m))</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># CONVERT FACTOR COLUMN TO CHARACTER (ANNOYING)</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>dt2225<span class="sc">$</span>MEAS_NAME <span class="ot">&lt;-</span> <span class="fu">as.character</span>(dt2225<span class="sc">$</span>MEAS_NAME)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+            </div>
+          </div>
+        </section>
+        <section id="add-columns-and-set-values" class="level2">
+          <h2 class="anchored" data-anchor-id="add-columns-and-set-values">Add Columns and Set Values</h2>
+          <div class="cell">
+            <div class="sourceCode cell-code" id="cb23">
+              <pre
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ADD SRC_YR COLUMN</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>dt2225[, SRC_YR <span class="sc">:</span><span class="er">=</span> <span class="fu">substr</span>(SOURCE, <span class="dv">4</span>, <span class="dv">7</span>)]</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ADD MEAS_TYPE COLUMN</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>dt2225[<span class="fu">toupper</span>(MEAS_NAME) <span class="sc">%like%</span> <span class="st">"^PROD"</span>, MEAS_TYPE <span class="sc">:</span><span class="er">=</span> <span class="st">"Production"</span>]</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>dt2225[<span class="fu">toupper</span>(MEAS_NAME) <span class="sc">%like%</span> <span class="st">"^RESERV"</span>, MEAS_TYPE <span class="sc">:</span><span class="er">=</span> <span class="st">"Reserve"</span>]</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>dt2225[<span class="fu">toupper</span>(MEAS_NAME) <span class="sc">%like%</span> <span class="st">"^CAP"</span> <span class="sc">|</span> <span class="fu">toupper</span>(TYPE) <span class="sc">%like%</span> <span class="st">"CAPACITY"</span>, MEAS_TYPE <span class="sc">:</span><span class="er">=</span> <span class="st">"Capacity"</span>]</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co"># ADD ESTIMATED COLUMN</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>dt2225[<span class="fu">toupper</span>(MEAS_NAME) <span class="sc">%like%</span> <span class="st">"EST"</span>, ESTIMATED <span class="sc">:</span><span class="er">=</span> <span class="st">"Y"</span>]</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co"># ADD MEAS_YR COLUMN</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>dt2225[<span class="sc">!</span><span class="fu">is.na</span>(MEAS_UNIT), MEAS_YR <span class="sc">:</span><span class="er">=</span> <span class="fu">substr</span>(MEAS_NAME, <span class="fu">nchar</span>(MEAS_NAME) <span class="sc">-</span> <span class="dv">3</span>, <span class="fu">nchar</span>(MEAS_NAME))]</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>dt2225[<span class="sc">!</span><span class="fu">is.na</span>(MEAS_UNIT) <span class="sc">&amp;</span> <span class="fu">toupper</span>(MEAS_NAME) <span class="sc">%like%</span> <span class="st">"RESERV"</span>, MEAS_YR <span class="sc">:</span><span class="er">=</span> <span class="fu">as.integer</span>(SRC_YR) <span class="sc">-</span> <span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+            </div>
+          </div>
+        </section>
+        <section id="edits" class="level2">
+          <h2 class="anchored" data-anchor-id="edits">Edits</h2>
+          <div class="cell">
+            <div class="sourceCode cell-code" id="cb24">
+              <pre
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># remove leading and following whitespace</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>dt2225[, VALUE <span class="sc">:</span><span class="er">=</span> <span class="fu">trimws</span>(VALUE)]</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># remove leading "e"</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>dt2225[VALUE <span class="sc">%like%</span> <span class="st">"^e[0-9]"</span>, VALUE <span class="sc">:</span><span class="er">=</span> <span class="fu">substr</span>(VALUE, <span class="dv">2</span>, <span class="fu">nchar</span>(VALUE))]</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co"># remove empty notes</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>dt2225 <span class="ot">&lt;-</span> dt2225[<span class="sc">!</span>(<span class="fu">is.na</span>(MEAS_UNIT) <span class="sc">&amp;</span> VALUE <span class="sc">==</span> <span class="st">""</span>), ]</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co"># notes don't have measurements</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>dt2225[<span class="fu">toupper</span>(MEAS_NAME) <span class="sc">%like%</span> <span class="st">"NOTE"</span>, MEAS_UNIT <span class="sc">:</span><span class="er">=</span> <span class="cn">NA</span>]</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>dt2225[<span class="fu">toupper</span>(MEAS_NAME) <span class="sc">%like%</span> <span class="st">"NOTE"</span>, MEAS_YR <span class="sc">:</span><span class="er">=</span> <span class="cn">NA</span>]</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="co"># remove meas_name = "V9" - from Barite file</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>dt2225 <span class="ot">&lt;-</span> dt2225[<span class="sc">!</span>MEAS_NAME <span class="sc">%like%</span> <span class="st">"^V"</span>]</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="co"># remove gt and lt symbols in VALUE</span></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>dt2225[VALUE <span class="sc">%like%</span> <span class="st">"^&gt;"</span>, VALUE <span class="sc">:</span><span class="er">=</span> <span class="fu">substr</span>(VALUE, <span class="dv">2</span>, <span class="fu">nchar</span>(VALUE))]</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>dt2225[VALUE <span class="sc">%like%</span> <span class="st">"^&lt;"</span>, VALUE <span class="sc">:</span><span class="er">=</span> <span class="fu">substr</span>(VALUE, <span class="dv">2</span>, <span class="fu">nchar</span>(VALUE))]</span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a><span class="co"># substitute and for &amp; in COMMODITY</span></span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">%like%</span> <span class="st">"&amp;"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="fu">str_replace_all</span>(COMMODITY, <span class="st">"&amp;"</span>, <span class="st">"and"</span>)]</span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a><span class="co"># remove where VALUE equals "XX" (meaning invalid)</span></span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>dt2225 <span class="ot">&lt;-</span> dt2225[<span class="sc">!</span>VALUE <span class="sc">==</span> <span class="st">"XX"</span>]</span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a><span class="co"># remove if NA or blank in VALUE</span></span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>dt2225 <span class="ot">&lt;-</span> dt2225[<span class="sc">!</span><span class="fu">is.na</span>(VALUE) <span class="sc">&amp;</span> VALUE <span class="sc">!=</span> <span class="st">""</span>]</span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a><span class="co"># capitalize COMMODITY, COUNTRY, and MEAS_TYPE</span></span>
+<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a>dt2225[, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="fu">toupper</span>(COMMODITY)]</span>
+<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a>dt2225[, COUNTRY <span class="sc">:</span><span class="er">=</span> <span class="fu">toupper</span>(COUNTRY)]</span>
+<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a>dt2225[, MEAS_TYPE <span class="sc">:</span><span class="er">=</span> <span class="fu">toupper</span>(MEAS_TYPE)]</span>
+<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a><span class="co"># add space before open parentheses</span></span>
+<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">%like%</span> <span class="st">"[A-Z]</span><span class="sc">\\</span><span class="st">("</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="fu">str_replace</span>(COMMODITY, <span class="st">"([A-Z])</span><span class="sc">\\</span><span class="st">("</span>, <span class="st">"</span><span class="sc">\\</span><span class="st">1 ("</span>)]</span>
+<span id="cb24-37"><a href="#cb24-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-38"><a href="#cb24-38" aria-hidden="true" tabindex="-1"></a><span class="co"># double dash to single and add space before and after</span></span>
+<span id="cb24-39"><a href="#cb24-39" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">%like%</span> <span class="st">"</span><span class="sc">\\</span><span class="st">)--[A-Z]"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="fu">str_replace</span>(COMMODITY, <span class="st">"--"</span>, <span class="st">" - "</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+            </div>
+          </div>
+        </section>
+        <section id="harmonize-commodity-names---set-to-2025-names" class="level2">
+          <h2 class="anchored" data-anchor-id="harmonize-commodity-names---set-to-2025-names">Harmonize Commodity Names
+            - Set to 2025 Names</h2>
+          <div class="cell">
+            <div class="sourceCode cell-code" id="cb25">
+              <pre
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"BAUXITE AND ALUMINA"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="st">"BAUXITE"</span>]</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"NIOBIUM (COLUMBIUM)"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="st">"NIOBIUM"</span>]</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"MICA"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="st">"MICA (NATURAL)"</span>]</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"GRAPHITE (NATURAL)"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="st">"GRAPHITE"</span>]</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"FELDSPAR AND NEPHELINE SYENITE"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="st">"FELDSPAR"</span>]</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"TALC AND PYROPHYLLITE"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="st">"TALC, CRUDE"</span>]</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"ABRASIVES (MANUFACTURED)"</span>, COMMODITY <span class="sc">:</span><span class="er">=</span> <span class="st">"ABRASIVES"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+            </div>
+          </div>
+        </section>
+        <section id="corrections-for-wrong-data-entry" class="level2">
+          <h2 class="anchored" data-anchor-id="corrections-for-wrong-data-entry">Corrections For Wrong Data Entry</h2>
+          <div class="cell">
+            <div class="sourceCode cell-code" id="cb26">
+              <pre
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"GEMSTONES"</span>, MEAS_UNIT <span class="sc">:</span><span class="er">=</span> <span class="fu">toupper</span>(<span class="st">"thousands of carats of gem-quality diamond"</span>)]</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"MAGNESIUM COMPOUNDS"</span>, MEAS_UNIT <span class="sc">:</span><span class="er">=</span> <span class="fu">toupper</span>(<span class="st">"thousand metric tons"</span>)]</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"POTASH"</span>, MEAS_UNIT <span class="sc">:</span><span class="er">=</span> <span class="st">"THOUSAND METRIC TONS"</span>]</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>dt2225[COMMODITY <span class="sc">==</span> <span class="st">"SELENIUM"</span>, MEAS_UNIT <span class="sc">:</span><span class="er">=</span> <span class="st">"METRIC TONS"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+            </div>
+          </div>
+        </section>
+        <section id="fix-country-names" class="level2">
+          <h2 class="anchored" data-anchor-id="fix-country-names">Fix Country Names</h2>
+          <div class="cell">
+            <div class="sourceCode cell-code" id="cb27">
+              <pre
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># remove accents</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>dt2225[, COUNTRY <span class="sc">:</span><span class="er">=</span> stringi<span class="sc">::</span><span class="fu">stri_trans_general</span>(COUNTRY, <span class="st">"Latin-ASCII"</span>)]</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># only use country names from list</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>country_names <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"country_names.csv"</span>))</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (nm <span class="cf">in</span> country_names[, <span class="dv">1</span>]) {</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    dt2225[COUNTRY <span class="sc">%like%</span> <span class="fu">paste0</span>(<span class="st">"^"</span>, nm) <span class="sc">&amp;</span> <span class="sc">!</span>COUNTRY <span class="sc">==</span> <span class="st">"UNITED STATES AND CANADA"</span>, COUNTRY <span class="sc">:</span><span class="er">=</span> nm]</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="co"># dt2225[COUNTRY %like% "[0-9]$", COUNTRY := stringr::str_remove_all(COUNTRY, "[0-9]")]</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="co"># dt2225[COUNTRY %like% "\\)$", COUNTRY := stringr::str_replace(COUNTRY, "(.*)\\(.*", "\\1")]</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="co"># dt2225[, COUNTRY := stringr::str_replace_all(COUNTRY, "REPUBLIC OFE", "REPUBLIC OF")]</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="co"># dt2225[(!COUNTRY %like% "KOREA" &amp; !COUNTRY %like% "WORLD") &amp; COUNTRY %like% ",", COUNTRY := stringr::str_replace(COUNTRY, "(.*),.*", "\\1")]</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>dt2225[, COUNTRY <span class="sc">:</span><span class="er">=</span> <span class="fu">trimws</span>(COUNTRY)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+            </div>
+          </div>
+        </section>
+        <section id="write-final-combined-file" class="level2">
+          <h2 class="anchored" data-anchor-id="write-final-combined-file">Write Final Combined File</h2>
+          <div class="cell">
+            <div class="sourceCode cell-code" id="cb28">
+              <pre
+                class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ORDER COLUMNS</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>dt2225 <span class="ot">&lt;-</span> dt2225[, .(SOURCE, COMMODITY, COUNTRY, TYPE, MEAS_UNIT, MEAS_NAME, MEAS_TYPE, SRC_YR, MEAS_YR, ESTIMATED, VALUE)]</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># WRITE FILE</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">fwrite</span>(dt2225, <span class="fu">here</span>(<span class="st">"data/output/world_mineral_commodity_reports_2022-2025.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
+            </div>
+          </div>
+        </section>
+      </section>
+
+    </main>
+    <!-- /main column -->
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const icon = "";
+        const anchorJS = new window.AnchorJS();
+        anchorJS.options = {
+          placement: 'right',
+          icon: icon
+        };
+        anchorJS.add('.anchored');
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function (e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button,
+              {
+                trigger: "manual",
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]
+              });
+            tooltip.show();
+          }
+          setTimeout(function () {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function (trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+        var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+        for (var i = 0; i < links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+          }
+        }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function (el) {
+              return el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'quarto',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+          window.tippy(el, config);
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i = 0; i < noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function () {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch { }
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const xrefs = window.document.querySelectorAll('a.quarto-xref');
+        const processXRef = (id, note) => {
+          // Strip column container classes
+          const stripColumnClz = (el) => {
+            el.classList.remove("page-full", "page-columns");
+            if (el.children) {
+              for (const child of el.children) {
+                stripColumnClz(child);
+              }
+            }
+          }
+          stripColumnClz(note)
+          if (id === null || id.startsWith('sec-')) {
+            // Special case sections, only their first couple elements
+            const container = document.createElement("div");
+            if (note.children && note.children.length > 2) {
+              container.appendChild(note.children[0].cloneNode(true));
+              for (let i = 1; i < note.children.length; i++) {
+                const child = note.children[i];
+                if (child.tagName === "P" && child.innerText === "") {
+                  continue;
+                } else {
+                  container.appendChild(child.cloneNode(true));
+                  break;
+                }
+              }
+              if (window.Quarto?.typesetMath) {
+                window.Quarto.typesetMath(container);
+              }
+              return container.innerHTML
+            } else {
+              if (window.Quarto?.typesetMath) {
+                window.Quarto.typesetMath(note);
+              }
+              return note.innerHTML;
+            }
+          } else {
+            // Remove any anchor links if they are present
+            const anchorLink = note.querySelector('a.anchorjs-link');
+            if (anchorLink) {
+              anchorLink.remove();
+            }
+            if (window.Quarto?.typesetMath) {
+              window.Quarto.typesetMath(note);
+            }
+            if (note.classList.contains("callout")) {
+              return note.outerHTML;
+            } else {
+              return note.innerHTML;
+            }
+          }
+        }
+        for (var i = 0; i < xrefs.length; i++) {
+          const xref = xrefs[i];
+          tippyHover(xref, undefined, function (instance) {
+            instance.disable();
+            let url = xref.getAttribute('href');
+            let hash = undefined;
+            if (url.startsWith('#')) {
+              hash = url;
+            } else {
+              try { hash = new URL(url).hash; } catch { }
+            }
+            if (hash) {
+              const id = hash.replace(/^#\/?/, "");
+              const note = window.document.getElementById(id);
+              if (note !== null) {
+                try {
+                  const html = processXRef(id, note.cloneNode(true));
+                  instance.setContent(html);
+                } finally {
+                  instance.enable();
+                  instance.show();
+                }
+              } else {
+                // See if we can fetch this
+                fetch(url.split('#')[0])
+                  .then(res => res.text())
+                  .then(html => {
+                    const parser = new DOMParser();
+                    const htmlDoc = parser.parseFromString(html, "text/html");
+                    const note = htmlDoc.getElementById(id);
+                    if (note !== null) {
+                      const html = processXRef(id, note);
+                      instance.setContent(html);
+                    }
+                  }).finally(() => {
+                    instance.enable();
+                    instance.show();
+                  });
+              }
+            } else {
+              // See if we can fetch a full url (with no hash to target)
+              // This is a special case and we should probably do some content thinning / targeting
+              fetch(url)
+                .then(res => res.text())
+                .then(html => {
+                  const parser = new DOMParser();
+                  const htmlDoc = parser.parseFromString(html, "text/html");
+                  const note = htmlDoc.querySelector('main.content');
+                  if (note !== null) {
+                    // This should only happen for chapter cross references
+                    // (since there is no id in the URL)
+                    // remove the first header
+                    if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                      note.children[0].remove();
+                    }
+                    const html = processXRef(null, note);
+                    instance.setContent(html);
+                  }
+                }).finally(() => {
+                  instance.enable();
+                  instance.show();
+                });
+            }
+          }, function (instance) {
+          });
+        }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = (cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' + annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+        // Handle positioning of the toggle
+        window.addEventListener(
+          "resize",
+          throttle(() => {
+            elRect = undefined;
+            if (selectedAnnoteEl) {
+              selectCodeLines(selectedAnnoteEl);
+            }
+          }, 10)
+        );
+        function throttle(fn, ms) {
+          let throttle = false;
+          let timer;
+          return (...args) => {
+            if (!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+            } else { // all the others get throttled
+              if (timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+            }
+          };
+        }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i = 0; i < bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function () {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function (cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+    </script>
+  </div> <!-- /content -->
+
+
+
+
+</body>
+
+</html>
